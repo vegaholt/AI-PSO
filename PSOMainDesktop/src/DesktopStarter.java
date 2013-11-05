@@ -10,6 +10,7 @@ import com.ui.PsoMainUI;
  * Time: 12:00
  * To change this template use File | Settings | File Templates.
  */
+
 public class DesktopStarter {
     public static void main(String[] args) {
         TexturePacker2.process("../../images", "./", "atlas");

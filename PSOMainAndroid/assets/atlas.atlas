@@ -21,6 +21,62 @@ buttonDown
   orig: 44, 44
   offset: 0, 0
   index: -1
+color0
+  rotate: false
+  xy: 206, 26
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+color1
+  rotate: false
+  xy: 254, 84
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+color2
+  rotate: false
+  xy: 330, 95
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+color3
+  rotate: false
+  xy: 357, 105
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+color4
+  rotate: false
+  xy: 36, 20
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+color5
+  rotate: false
+  xy: 391, 122
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+color6
+  rotate: false
+  xy: 9, 3
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+color7
+  rotate: false
+  xy: 212, 26
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
 colorNode0
   rotate: false
   xy: 2, 9
