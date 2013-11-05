@@ -7,30 +7,65 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.broken_e.ui.BaseScreen;
 import com.broken_e.ui.UiApp;
+import task1.Swarm;
 
 public class MainScreen extends BaseScreen {
+    private static final int TASK_WIDTH = 100;
 
+    //String[][] tasks = new String[4][3]{
+    //    {"1D circle","10 simulations","2D"},
+    //    {"1D Nearest neighbors", "2D Nearest Neighbours", "Intertia Weight"},
+    //    {"Knap Sack 1 0", "Weighted Knape Sack", "Decresing Weight Knap Sack"},
+    //    {"Knap Sack with Volum"}
+    //}
 
     public MainScreen(final UiApp app) {
         super(app);
 
-        TextButton task1Btn = new TextButton("Task 1",app.skin);
-        task1Btn.setColor(app.skin.getColor("blue"));
-        TextButton task2Btn = new TextButton("Task 1",app.skin);
-        task2Btn.setColor(app.skin.getColor("blue"));
-        TextButton task3Btn = new TextButton("Task 1",app.skin);
-        task3Btn.setColor(app.skin.getColor("blue"));
-        TextButton task4Btn = new TextButton("Task 1",app.skin);
-        task4Btn.setColor(app.skin.getColor("blue"));
+        ClickListener taskListener = new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+            }
+        };
+        ClickListener startBtnListener = new
+
+                ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        app.switchScreens(new DisplayScreen(app, new Swarm()));
+                    }
+                };
+
+        TextButton task1Btn = createButton("Task 1", taskListener);
+        TextButton task2Btn = createButton("Task 2", taskListener);
+        TextButton task3Btn = createButton("Task 2", taskListener);
+        TextButton task4Btn = createButton("Task 2", taskListener);
+
+        TextButton startBtn = new TextButton("Start Simulation", app.skin);
+        startBtn.addListener(startBtnListener);
+        startBtn.setColor(app.skin.getColor("green"));
 
         mainTable.defaults().pad(6f);
         mainTable.setBackground(app.skin.getDrawable("window1"));
-        mainTable.add(Style.label("Select puzzel to solve", Color.WHITE, app)).colspan(6);
+        mainTable.add(Style.label("Select puzzel to solve", Color.WHITE, app)).colspan(4);
         mainTable.row();
-        mainTable.add(task1Btn);
-        mainTable.add(task2Btn);
-        mainTable.add(task3Btn);
-        mainTable.add(task4Btn);
+        mainTable.add(task1Btn).width(TASK_WIDTH);
+        mainTable.add(task2Btn).width(TASK_WIDTH);
+        mainTable.add(task3Btn).width(TASK_WIDTH);
+        mainTable.add(task4Btn).width(TASK_WIDTH);
+        mainTable.row();
+        mainTable.add(startBtn).width(350).height(80).colspan(4);
+    }
+
+    private TextButton createButton(String label, ClickListener listener) {
+        TextButton btn = new TextButton(label, app.skin);
+        btn.setColor(app.skin.getColor("blue"));
+        btn.addListener(listener);
+
+        return btn;
     }
 
     @Override
