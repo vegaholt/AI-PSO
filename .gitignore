@@ -39,7 +39,6 @@ RemoteSystemsTempFiles/
 # */.loadpath
 # classpath
 # settings
-*.iml
 *.iws
 .idea/
 *.psd
