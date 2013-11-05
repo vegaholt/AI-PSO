@@ -16,6 +16,7 @@ public class Swarm {
     public ArrayList<Particle> particles;
     public Position bestPosition;
 
+    final double[][] neighbours;
     public Swarm(int swarmSize, int dimensions, double region,
                  double inertiaWeightStart, double inertiaWeightEnd,
                  double c1, double c2, int neighbourCount, int iterations, double acceptanceValue) {
@@ -30,6 +31,7 @@ public class Swarm {
         this.iterations = iterations;
         this.acceptanceValue = acceptanceValue;
         particles = new ArrayList<Particle>();
+        this.neighbours = new double[neighbourCount][2];
 
     }
 
@@ -107,7 +109,6 @@ public class Swarm {
         //Build neighbour list
         //1st column holds neighbour index
         //2nd column holds distance to the particle
-        double[][] neighbours = new double[neighbourCount][2];
 
         //Initiate with the N first particles
         int particleCounter = 0;

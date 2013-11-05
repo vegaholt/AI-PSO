@@ -11,7 +11,6 @@ import task1.Swarm;
 
 public class MainScreen extends BaseScreen {
     private static final int TASK_WIDTH = 100;
-
     //String[][] tasks = new String[4][3]{
     //    {"1D circle","10 simulations","2D"},
     //    {"1D Nearest neighbors", "2D Nearest Neighbours", "Intertia Weight"},
@@ -35,9 +34,7 @@ public class MainScreen extends BaseScreen {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
-                        app.switchScreens(new DisplayScreen(app, new Swarm(10000, 2, 1000, 0.99, 0.99, 0.01, 0.01,
-                                1000,
-                                0.001)));
+                        app.switchScreens(new SwarmSettings(app));
                     }
                 };
 
@@ -46,7 +43,7 @@ public class MainScreen extends BaseScreen {
         TextButton task3Btn = createButton("Task 2", taskListener);
         TextButton task4Btn = createButton("Task 2", taskListener);
 
-        TextButton startBtn = new TextButton("Start Simulation", app.skin);
+        TextButton startBtn = new TextButton("Next", app.skin);
         startBtn.addListener(startBtnListener);
         startBtn.setColor(app.skin.getColor("green"));
 
@@ -74,5 +71,4 @@ public class MainScreen extends BaseScreen {
     public void onBackPress() {
         Gdx.app.exit();
     }
-
 }
