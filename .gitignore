@@ -41,4 +41,5 @@ RemoteSystemsTempFiles/
 # settings
 *.iws
 .idea/
+*.iml
 *.psd
