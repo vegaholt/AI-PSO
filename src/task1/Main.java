@@ -5,7 +5,7 @@ public class Main {
 
         //swarm (swarmSize, dimensions, region, inertiaWeightStart, inertiaWeightEnd, c1, c2, iterations, acceptanceValue)
         // One dimension
-        Swarm swarm = new Swarm(20, 1, 1000, 1, 0.4, 0.01, 0.01, 1000, 0.001);
+        Swarm swarm = new Swarm(20, 1, 1000, 1, 0.4, 0.01, 0.01, 3, 1000, 0.001);
 		swarm.initSwarm();
 		swarm.run();
 

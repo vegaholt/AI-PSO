@@ -6,7 +6,6 @@ public class Particle {
     private Velocity velocity;
     private Position position;
     private Position bestPosition;
-
     private double inertiaWeight;
     private double coolingRate;
 
@@ -19,11 +18,10 @@ public class Particle {
 
 
         // Calculate coolingRate
-        if (swarm.inertiaWeightStart == swarm.inertiaWeightEnd){
+        if (swarm.inertiaWeightStart == swarm.inertiaWeightEnd) {
             coolingRate = 0;
-        }
-        else {
-            coolingRate = (swarm.inertiaWeightStart - swarm.inertiaWeightEnd)/swarm.iterations;
+        } else {
+            coolingRate = (swarm.inertiaWeightStart - swarm.inertiaWeightEnd) / swarm.iterations;
         }
 
         // Create random positions
@@ -41,7 +39,7 @@ public class Particle {
         // Create random velocity - Kan settes til c1/c2
         double[] velocities = new double[swarm.dimensions];
         for (int i = 0; i < velocities.length; i++) {
-            velocities[i] = -(swarm.region / 2000)  + Math.random() * swarm.region / 1000;
+            velocities[i] = -(swarm.region / 2000) + Math.random() * swarm.region / 1000;
         }
 
         // Set velocity
@@ -59,12 +57,13 @@ public class Particle {
         double r1 = Math.random();
         double r2 = Math.random();
 
+        // Use global bestPosition if neighbourCount is 0
         for (int i = 0; i < swarm.dimensions; i++) {
 
             double newVelocity = (velocity.getVelocity(i) * inertiaWeight)
                     + (swarm.c1 * r1 * (bestPosition.getPosition(i) - position
                     .getPosition(i)))
-                    + (swarm.c2 * r2 * (swarm.getBestPosition()
+                    + (swarm.c2 * r2 * (swarm.getBestPosition(this)
                     .getPosition(i) - position.getPosition(i)));
 
             velocity.setVelocity(i, newVelocity);

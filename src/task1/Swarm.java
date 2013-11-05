@@ -10,6 +10,7 @@ public class Swarm {
     public final double inertiaWeightStart;
     public final double inertiaWeightEnd;
     public final double c1, c2;
+    public final int neighbourCount;
     public final int iterations;
     public final double acceptanceValue;
     public ArrayList<Particle> particles;
@@ -17,7 +18,7 @@ public class Swarm {
 
     public Swarm(int swarmSize, int dimensions, double region,
                  double inertiaWeightStart, double inertiaWeightEnd,
-                 double c1, double c2, int iterations, double acceptanceValue) {
+                 double c1, double c2, int neighbourCount, int iterations, double acceptanceValue) {
         this.swarmSize = swarmSize;
         this.dimensions = dimensions;
         this.region = region;
@@ -25,6 +26,7 @@ public class Swarm {
         this.inertiaWeightEnd = inertiaWeightEnd;
         this.c1 = c1;
         this.c2 = c2;
+        this.neighbourCount = neighbourCount;
         this.iterations = iterations;
         this.acceptanceValue = acceptanceValue;
         particles = new ArrayList<Particle>();
@@ -96,7 +98,65 @@ public class Swarm {
         }
     }
 
-    public Position getBestPosition() {
-        return bestPosition;
+    public Position getBestPosition(Particle particle) {
+        //Use global best position if neighbourCount is '0'
+        if (neighbourCount == 0) {
+            return bestPosition;
+        }
+
+        //Build neighbour list
+        //1st column holds neighbour index
+        //2nd column holds distance to the particle
+        double[][] neighbours = new double[neighbourCount][2];
+
+        //Initiate with the N first particles
+        int particleCounter = 0;
+        int neighbourCounter = 0;
+
+        while (particleCounter < neighbourCount){
+           if(particle!=particles.get(particleCounter)){
+               neighbours[neighbourCounter][0] = particleCounter;
+               neighbours[neighbourCounter][1] = getDistance(particle, particles.get(particleCounter));
+               neighbourCounter++;
+           }
+           particleCounter++;
+        }
+
+        //Search for the closest neighbours
+        for (int i = particleCounter; i < swarmSize; i++){
+            if(particle==particles.get(i)) continue;
+
+            double distance = getDistance(particle, particles.get(i));
+
+            for (int j = 0; j < neighbourCount; j++){
+                if(distance<neighbours[j][1]){
+                    neighbours[j][1] = distance;
+                    neighbours[j][0] = i;
+                    break;
+                }
+            }
+        }
+
+        //Returns the position of the neighbour with the best fitnessValue
+        double bestFitness = particles.get((int)neighbours[0][0]).getPosition().getFitness();
+        int bestIndex = 0;
+
+        for (int i = 1; i < neighbourCount; i++){
+            double fitness = particles.get((int)neighbours[0][0]).getPosition().getFitness();
+            if(fitness < bestFitness){
+                bestFitness = fitness;
+                bestIndex = i;
+            }
+        }
+
+        return particles.get(bestIndex).getPosition();
+    }
+
+    public double getDistance(Particle p1, Particle p2){
+        double distance = 0;
+        for (int i = 0; i < dimensions; i++){
+            distance += Math.pow(p1.getPosition().getPosition(i) - p2.getPosition().getPosition(i), 2);
+        }
+        return Math.sqrt(distance);
     }
 }
