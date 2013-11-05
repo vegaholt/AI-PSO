@@ -35,7 +35,9 @@ public class MainScreen extends BaseScreen {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
-                        app.switchScreens(new DisplayScreen(app, new Swarm(10000, 2, 1000, 0.99, 0.01, 0.01, 1000, 0.001)));
+                        app.switchScreens(new DisplayScreen(app, new Swarm(10000, 2, 1000, 0.99, 0.99, 0.01, 0.01,
+                                1000,
+                                0.001)));
                     }
                 };
 

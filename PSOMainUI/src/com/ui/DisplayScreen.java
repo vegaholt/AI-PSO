@@ -41,7 +41,7 @@ public class DisplayScreen extends BaseScreen {
         super.draw(batch, parentAlpha);    //To change body of overridden methods use File | Settings | File Templates.oo
         float y = 0;
         int i = 0;
-        for (Particle p : swarm.swarm) {
+        for (Particle p : swarm.particles) {
             Position pos = p.getPosition();
             if (swarm.dimensions > 1) {
                 y = (float) p.getPosition().getPosition(1) * ratioH;

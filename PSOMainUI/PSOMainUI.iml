@@ -7,8 +7,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="libs2" level="project" />
-    <orderEntry type="module" module-name="AIProgPSO" />
+    <orderEntry type="library" exported="" name="MainLib" level="project" />
+    <orderEntry type="module" module-name="AI-PSO" exported="" />
   </component>
 </module>
 
