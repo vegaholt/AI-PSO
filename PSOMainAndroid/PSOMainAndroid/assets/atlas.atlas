@@ -1,0 +1,103 @@
+
+atlas.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+button
+  rotate: false
+  xy: 206, 78
+  size: 46, 48
+  split: 11, 34, 4, 4
+  pad: 4, 4, 4, 4
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+buttonDown
+  rotate: false
+  xy: 206, 32
+  size: 44, 44
+  split: 21, 22, 8, 8
+  pad: 6, 6, 6, 6
+  orig: 44, 44
+  offset: 0, 0
+  index: -1
+colorNode0
+  rotate: false
+  xy: 2, 9
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+colorNode1
+  rotate: false
+  xy: 357, 111
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+colorNode2
+  rotate: false
+  xy: 19, 9
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+colorNode3
+  rotate: false
+  xy: 374, 111
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+cursor
+  rotate: false
+  xy: 2, 2
+  size: 5, 5
+  split: 2, 2, 1, 2
+  pad: 0, 0, 1, 0
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+knob
+  rotate: false
+  xy: 330, 101
+  size: 25, 25
+  split: 12, 12, 13, 11
+  pad: 12, 12, 12, 12
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+queen
+  rotate: false
+  xy: 2, 26
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+slide-bg
+  rotate: false
+  xy: 254, 90
+  size: 36, 36
+  split: 16, 16, 16, 18
+  pad: 7, 8, 10, 10
+  orig: 36, 36
+  offset: 0, 0
+  index: -1
+text-field
+  rotate: false
+  xy: 292, 90
+  size: 36, 36
+  split: 12, 11, 10, 10
+  pad: 7, 6, 5, 7
+  orig: 36, 36
+  offset: 0, 0
+  index: -1
+window
+  rotate: false
+  xy: 104, 26
+  size: 100, 100
+  split: 54, 45, 54, 45
+  pad: 11, 12, 13, 14
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
