@@ -45,7 +45,6 @@ public class Swarm {
             // Add particle to the swarm
             particles.add(particle);
 
-            System.out.println(particle);
         }
 
         // Find best position
@@ -112,20 +111,17 @@ public class Swarm {
 
         //Initiate with the N first particles
         int particleCounter = 0;
-        int neighbourCounter = 0;
 
         while (particleCounter < neighbourCount) {
-            if (particle.index != particleCounter) {
-                neighbours[neighbourCounter][0] = particleCounter;
-                neighbours[neighbourCounter][1] = getDistance(particle, particles.get(particleCounter)); // neighbours[neighbourCounter][1] = getDistance(particle, particles.get(particleCounter));
-                neighbourCounter++;
-            }
+            neighbours[particleCounter][0] = particleCounter;
+            neighbours[particleCounter][1] = getDistance(particle, particles.get(particleCounter)); //
+            // neighbours[neighbourCounter][1] = getDistance(particle, particles.get(particleCounter));
             particleCounter++;
+
         }
 
         //Search for the closest neighbours
         for (int i = particleCounter; i < swarmSize; i++) {
-            if (particle == particles.get(i)) continue;
 
             double distance = getDistance(particle, particles.get(i));
             int bestIndex = -1;
@@ -146,11 +142,11 @@ public class Swarm {
         }
 
         //Returns the position of the neighbour with the best fitnessValue
-        double bestFitness = particles.get((int) neighbours[0][0]).getPosition().getFitness();
+        double bestFitness = particles.get((int) neighbours[0][0]).getBestPosition().getFitness();
         int bestIndex = 0;
 
         for (int i = 1; i < neighbourCount; i++) {
-            double fitness = particles.get((int) neighbours[0][0]).getPosition().getFitness();
+            double fitness = particles.get((int) neighbours[i][0]).getBestPosition().getFitness();
             if (fitness < bestFitness) {
                 bestFitness = fitness;
                 bestIndex = i;
