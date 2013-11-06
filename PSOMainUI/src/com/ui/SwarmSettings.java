@@ -16,12 +16,12 @@ import pso.Swarm;
 public class SwarmSettings extends BaseScreen {
 
     private final SliderData[] slidersData = new SliderData[]{
-            new SliderData("Particles", 10, 25000, 10, 500),
+            new SliderData("Particles", 10, 20000, 50, 100),
             new SliderData("Region", 100, 100000, 100, 1000),
-            new SliderData("Inertia Start", 1, 100, 1, 90),
+            new SliderData("Inertia Start", 1, 100, 1, 95),
             new SliderData("Inertia End", 1, 100, 1, 90),
-            new SliderData("Local Weight", 0, 100, 5, 5),
-            new SliderData("Global Weight", 0, 100, 5, 5),
+            new SliderData("Local Weight", 0, 100, 1, 1),
+            new SliderData("Global Weight", 0, 100, 1, 4),
             new SliderData("Iterations", 0, 100000, 100, 1000),
             new SliderData("Acceptance", 1, 1000, 10, 10),
             new SliderData("Neighbours", 0, 100, 1, 3)

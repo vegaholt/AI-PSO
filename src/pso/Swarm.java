@@ -1,6 +1,8 @@
 package pso;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 public class Swarm {
 
@@ -13,9 +15,10 @@ public class Swarm {
     public final int neighbourCount;
     public final int iterations;
     public final double acceptanceValue;
-    final double[][] neighbours;
     public ArrayList<Particle> particles;
     public Position bestPosition;
+    private Neighbour[] neighbourHolder;
+    private TreeSet<Neighbour> bestNeighbour;
 
     public Swarm(int swarmSize, int dimensions, double region,
                  double inertiaWeightStart, double inertiaWeightEnd,
@@ -31,7 +34,13 @@ public class Swarm {
         this.iterations = iterations;
         this.acceptanceValue = acceptanceValue;
         particles = new ArrayList<Particle>();
-        this.neighbours = new double[neighbourCount][2];
+
+        this.bestNeighbour = new TreeSet<Neighbour>();
+        this.neighbourHolder = new Neighbour[neighbourCount];
+
+        for (int i = 0; i < neighbourCount; i++) {
+            this.neighbourHolder[i] = new Neighbour(i, i);
+        }
 
     }
 
@@ -106,53 +115,42 @@ public class Swarm {
         }
 
         //Build neighbour list
-        //1st column holds neighbour index
-        //2nd column holds distance to the particle
-
-        //Initiate with the N first particles
-        int particleCounter = 0;
-
-        while (particleCounter < neighbourCount) {
-            neighbours[particleCounter][0] = particleCounter;
-            neighbours[particleCounter][1] = getDistance(particle, particles.get(particleCounter)); //
-            // neighbours[neighbourCounter][1] = getDistance(particle, particles.get(particleCounter));
-            particleCounter++;
-
+       //Clearer old list, have to clear list so new list gets sorted
+        bestNeighbour.clear();
+        //Inserts the first particles neighbour list to the list
+        for (int i = 0; i < neighbourCount; i++) {
+            neighbourHolder[i].distance = getDistance(particle, particles.get(i));
+            neighbourHolder[i].index = i;
+            bestNeighbour.add(neighbourHolder[i]);
         }
-
         //Search for the closest neighbours
-        for (int i = particleCounter; i < swarmSize; i++) {
+        for (int i = neighbourCount + 1; i < swarmSize; i++) {
 
             double distance = getDistance(particle, particles.get(i));
-            int bestIndex = -1;
-            double worstDistance = -1.0;
-
-            for (int j = 0; j < neighbourCount; j++) {
-                if (distance < neighbours[j][1] && neighbours[j][1] > worstDistance) {
-                    bestIndex = j;
-                    worstDistance = neighbours[j][1];
-                    break;
-                }
-            }
-
-            if (bestIndex > -1) {
-                neighbours[bestIndex][1] = distance;
-                neighbours[bestIndex][0] = i;
+            //If distance is better then the highest distance neighbour add to the list
+            //then update neighbour with new distance and index
+            if (distance < bestNeighbour.last().distance) {
+                //Must poll worst element and add to make the list sort the item
+                Neighbour n = bestNeighbour.pollLast();
+                n.distance = distance;
+                n.index = i;
+                bestNeighbour.add(n);
             }
         }
 
         //Returns the position of the neighbour with the best fitnessValue
-        double bestFitness = particles.get((int) neighbours[0][0]).getBestPosition().getFitness();
-        int bestIndex = 0;
-
-        for (int i = 1; i < neighbourCount; i++) {
-            double fitness = particles.get((int) neighbours[i][0]).getBestPosition().getFitness();
+        Iterator<Neighbour> it = bestNeighbour.iterator();
+        Neighbour n = it.next();
+        double bestFitness = particles.get(n.index).getBestPosition().getFitness();
+        int bestIndex = n.index;
+        while (it.hasNext()) {
+            n = it.next();
+            double fitness = particles.get(n.index).getBestPosition().getFitness();
             if (fitness < bestFitness) {
+                bestIndex = n.index;
                 bestFitness = fitness;
-                bestIndex = i;
             }
         }
-
         return particles.get(bestIndex).getBestPosition();
     }
 
@@ -162,5 +160,25 @@ public class Swarm {
             distance += Math.pow(p1.getPosition().getPosition(i) - p2.getPosition().getPosition(i), 2);
         }
         return distance;
+    }
+
+    class Neighbour implements Comparable<Neighbour> {
+        public int index;
+        public double distance;
+
+        public Neighbour(int index, double distance) {
+            this.index = index;
+            this.distance = distance;
+        }
+
+        public void set(int index, double distance) {
+            this.distance = distance;
+            this.index = index;
+        }
+
+        @Override
+        public int compareTo(Neighbour o) {
+            return distance < o.distance ? -1 : distance > o.distance ? 1 : 0;
+        }
     }
 }

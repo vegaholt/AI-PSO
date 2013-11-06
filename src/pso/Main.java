@@ -1,7 +1,10 @@
 package pso;
 
+import java.util.TreeSet;
+
 public class Main {
 	public static void main(String[] args) {
+
 
         //swarm (swarmSize, dimensions, region, inertiaWeightStart, inertiaWeightEnd, c1, c2, iterations, acceptanceValue)
         // One dimension
