@@ -88,13 +88,16 @@ public class Particle {
                 bestPosition.setPosition(i, position.getPosition(i));
             }
 
-            System.out.println("LB updated: " + position);
             swarm.updateBestPosition(bestPosition);
         }
     }
 
     public Position getPosition() {
         return position;
+    }
+
+    public Position getBestPosition(){
+        return bestPosition;
     }
 
     public String toString() {

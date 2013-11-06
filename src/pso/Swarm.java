@@ -97,7 +97,6 @@ public class Swarm {
             for (int i = 0; i < dimensions; i++) {
                 bestPosition.setPosition(i, position.getPosition(i));
             }
-            System.out.println("GB updated: " + position);
         }
     }
 
@@ -158,7 +157,7 @@ public class Swarm {
             }
         }
 
-        return particles.get(bestIndex).getPosition();
+        return particles.get(bestIndex).getBestPosition();
     }
 
     public double getDistance(Particle p1, Particle p2) {
