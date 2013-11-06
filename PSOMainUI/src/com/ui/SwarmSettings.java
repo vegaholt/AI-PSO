@@ -20,8 +20,8 @@ public class SwarmSettings extends BaseScreen {
             new SliderData("Region", 100, 100000, 100, 1000),
             new SliderData("Inertia Start", 1, 100, 1, 90),
             new SliderData("Inertia End", 1, 100, 1, 90),
-            new SliderData("Local Weight", 0, 200, 1, 20),
-            new SliderData("Global Weight", 0, 200, 1, 20),
+            new SliderData("Local Weight", 0, 100, 5, 5),
+            new SliderData("Global Weight", 0, 100, 5, 5),
             new SliderData("Iterations", 0, 100000, 100, 1000),
             new SliderData("Acceptance", 1, 1000, 10, 10),
             new SliderData("Neighbours", 0, 100, 1, 3)
@@ -45,15 +45,17 @@ public class SwarmSettings extends BaseScreen {
                         double region = (double) sliders[i++].getValue();
                         double ineStart = (double) sliders[i++].getValue() / 100.0;
                         double ineEnd = (double) sliders[i++].getValue() / 100.0;
-                        double weight1 = sliders[i++].getValue() / 200.0;
-                        double weight2 = sliders[i++].getValue() / 200.0;
+                        double weight1 = (sliders[i++].getValue() / 100.0) * 2;
+                        double weight2 = (sliders[i++].getValue() / 100.0) * 2;
                         int iterations = (int) sliders[i++].getValue();
                         double accept = sliders[i++].getValue() / 100000;
-                        int neigh = (int)sliders[i++].getValue();
+                        int neigh = (int) sliders[i++].getValue();
 
-                        Swarm swarm = new Swarm(particles, 2, region, ineStart, ineEnd, weight1, weight2,neigh, iterations, accept);
+                        System.out.printf("Swarm inti Particles:%d Region:%f WeightStart:%f  WeightEnd:%f  LocalW:%f GlobalW:%f  Acceptance:%f  Neigh:%d",
+                                particles, region, ineStart, ineEnd, weight1, weight2, accept, neigh);
+                        Swarm swarm = new Swarm(particles, 2, region, ineStart, ineEnd, weight1, weight2, neigh, iterations, accept);
 
-                        app.switchScreens(new DisplayScreen(app,swarm));
+                        app.switchScreens(new DisplayScreen(app, swarm));
                     }
                 };
         ChangeListener changeListener = new
