@@ -23,91 +23,84 @@ buttonDown
   index: -1
 color0
   rotate: false
-  xy: 206, 26
-  size: 4, 4
-  orig: 4, 4
+  xy: 2, 14
+  size: 10, 10
+  orig: 10, 10
   offset: 0, 0
   index: -1
 color1
   rotate: false
-  xy: 254, 84
-  size: 4, 4
-  orig: 4, 4
+  xy: 2, 2
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+color10
+  rotate: false
+  xy: 254, 78
+  size: 10, 10
+  orig: 10, 10
   offset: 0, 0
   index: -1
 color2
   rotate: false
-  xy: 330, 95
-  size: 4, 4
-  orig: 4, 4
+  xy: 252, 66
+  size: 10, 10
+  orig: 10, 10
   offset: 0, 0
   index: -1
 color3
   rotate: false
-  xy: 357, 105
-  size: 4, 4
-  orig: 4, 4
+  xy: 357, 116
+  size: 10, 10
+  orig: 10, 10
   offset: 0, 0
   index: -1
 color4
   rotate: false
-  xy: 36, 20
-  size: 4, 4
-  orig: 4, 4
+  xy: 14, 14
+  size: 10, 10
+  orig: 10, 10
   offset: 0, 0
   index: -1
 color5
   rotate: false
-  xy: 391, 122
-  size: 4, 4
-  orig: 4, 4
+  xy: 14, 2
+  size: 10, 10
+  orig: 10, 10
   offset: 0, 0
   index: -1
 color6
   rotate: false
-  xy: 9, 3
-  size: 4, 4
-  orig: 4, 4
+  xy: 266, 78
+  size: 10, 10
+  orig: 10, 10
   offset: 0, 0
   index: -1
 color7
   rotate: false
-  xy: 212, 26
-  size: 4, 4
-  orig: 4, 4
+  xy: 252, 54
+  size: 10, 10
+  orig: 10, 10
   offset: 0, 0
   index: -1
-colorNode0
+color8
   rotate: false
-  xy: 2, 9
-  size: 15, 15
-  orig: 15, 15
+  xy: 264, 66
+  size: 10, 10
+  orig: 10, 10
   offset: 0, 0
   index: -1
-colorNode1
+color9
   rotate: false
-  xy: 357, 111
-  size: 15, 15
-  orig: 15, 15
-  offset: 0, 0
-  index: -1
-colorNode2
-  rotate: false
-  xy: 19, 9
-  size: 15, 15
-  orig: 15, 15
-  offset: 0, 0
-  index: -1
-colorNode3
-  rotate: false
-  xy: 374, 111
-  size: 15, 15
-  orig: 15, 15
+  xy: 357, 104
+  size: 10, 10
+  orig: 10, 10
   offset: 0, 0
   index: -1
 cursor
   rotate: false
-  xy: 2, 2
+  xy: 330, 94
   size: 5, 5
   split: 2, 2, 1, 2
   pad: 0, 0, 1, 0

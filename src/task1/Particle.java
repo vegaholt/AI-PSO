@@ -8,10 +8,12 @@ public class Particle {
     private Position bestPosition;
     private double inertiaWeight;
     private double coolingRate;
+    public final int index;
 
-    public Particle(Swarm swarm) {
+    public Particle(Swarm swarm, int index) {
         // Set swarm
         this.swarm = swarm;
+        this.index = index;
 
         //Set weight
         inertiaWeight = swarm.inertiaWeightStart;

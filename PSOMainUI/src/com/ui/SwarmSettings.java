@@ -15,7 +15,7 @@ import task1.Swarm;
 public class SwarmSettings extends BaseScreen {
 
     private final SliderData[] slidersData = new SliderData[]{
-            new SliderData("Particles", 10, 50000, 10, 1000),
+            new SliderData("Particles", 10, 25000, 10, 1000),
             new SliderData("Region", 100, 100000, 100, 1000),
             new SliderData("Inertia Start", 1, 100, 1, 99),
             new SliderData("Inertia End", 1, 100, 1, 90),
@@ -106,6 +106,7 @@ public class SwarmSettings extends BaseScreen {
         mainTable.add(runSimulations).width(300).height(60).colspan(3);
         mainTable.row();
         mainTable.add(startBtn).width(400).height(80).colspan(6);
+
     }
 
     @Override
