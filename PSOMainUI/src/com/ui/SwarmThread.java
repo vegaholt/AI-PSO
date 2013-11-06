@@ -1,6 +1,6 @@
 package com.ui;
 
-import task1.Swarm;
+import pso.Swarm;
 
 public class SwarmThread implements Runnable {
 

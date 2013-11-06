@@ -10,9 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.broken_e.ui.BaseScreen;
 import com.broken_e.ui.UiApp;
-import task1.Particle;
-import task1.Position;
-import task1.Swarm;
+import pso.Particle;
+import pso.Position;
+import pso.Swarm;
 
 public class DisplayScreen extends BaseScreen {
 

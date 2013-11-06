@@ -1,4 +1,4 @@
-package task1;
+package pso;
 
 import java.util.ArrayList;
 
@@ -119,12 +119,12 @@ public class Swarm {
         int neighbourCounter = 0;
 
         while (particleCounter < neighbourCount){
-           if(particle.index != particleCounter){
-               neighbours[neighbourCounter] = particleCounter;
-              // neighbours[neighbourCounter][1] = getDistance(particle, particles.get(particleCounter));
-               neighbourCounter++;
-           }
-           particleCounter++;
+            if(particle.index != particleCounter){
+                neighbours[neighbourCounter] = particleCounter;
+                // neighbours[neighbourCounter][1] = getDistance(particle, particles.get(particleCounter));
+                neighbourCounter++;
+            }
+            particleCounter++;
         }
 
         //Search for the closest neighbours

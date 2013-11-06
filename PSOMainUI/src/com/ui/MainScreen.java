@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.broken_e.ui.BaseScreen;
 import com.broken_e.ui.UiApp;
-import task1.Swarm;
 
 public class MainScreen extends BaseScreen {
     private static final int TASK_WIDTH = 100;

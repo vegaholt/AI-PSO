@@ -6,24 +6,25 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.broken_e.ui.BaseScreen;
 import com.broken_e.ui.UiApp;
-import task1.Swarm;
+import pso.Swarm;
 
 public class SwarmSettings extends BaseScreen {
 
     private final SliderData[] slidersData = new SliderData[]{
-            new SliderData("Particles", 10, 25000, 10, 1000),
+            new SliderData("Particles", 10, 25000, 10, 500),
             new SliderData("Region", 100, 100000, 100, 1000),
-            new SliderData("Inertia Start", 1, 100, 1, 99),
+            new SliderData("Inertia Start", 1, 100, 1, 90),
             new SliderData("Inertia End", 1, 100, 1, 90),
-            new SliderData("Weight C1", 0, 200, 1, 1),
-            new SliderData("Weight C2", 0, 200, 1, 1),
+            new SliderData("Local Weight", 0, 200, 1, 20),
+            new SliderData("Global Weight", 0, 200, 1, 20),
             new SliderData("Iterations", 0, 100000, 100, 1000),
-            new SliderData("Acceptance", 1, 1000, 1, 10),
-            new SliderData("Neighbours", 0, 100, 1, 0)
+            new SliderData("Acceptance", 1, 1000, 10, 10),
+            new SliderData("Neighbours", 0, 100, 1, 3)
     };
 
     public SwarmSettings(final UiApp app) {
@@ -47,7 +48,7 @@ public class SwarmSettings extends BaseScreen {
                         double weight1 = sliders[i++].getValue() / 200.0;
                         double weight2 = sliders[i++].getValue() / 200.0;
                         int iterations = (int) sliders[i++].getValue();
-                        double accept = sliders[i++].getValue() / 1000;
+                        double accept = sliders[i++].getValue() / 100000;
                         int neigh = (int)sliders[i++].getValue();
 
                         Swarm swarm = new Swarm(particles, 2, region, ineStart, ineEnd, weight1, weight2,neigh, iterations, accept);
@@ -95,7 +96,7 @@ public class SwarmSettings extends BaseScreen {
             labels[i] = new Label("" + sliders[i].getValue(), app.skin);
             labels[i].setName("text-" + i);
 
-            mainTable.add(Style.label(slidersData[i].label, Color.WHITE, app));
+            mainTable.add(Style.label(slidersData[i].label, Color.WHITE, app)).align(Align.right);
             mainTable.add(sliders[i]).width(slideWidth).colspan(3);
             mainTable.add(labels[i]).width(150);
             mainTable.row();
