@@ -102,14 +102,15 @@ public class DisplayScreen extends BaseScreen {
     public void draw(SpriteBatch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);    //To change body of overridden methods use File | Settings | File Templates.oo
         batch.setColor(Color.WHITE);
-        batch.end();
 
+        batch.end();
         shape.setColor(Color.LIGHT_GRAY);
         shape.begin(ShapeRenderer.ShapeType.Line);
-        shape.line(Gdx.graphics.getWidth()/2.0f, 0, Gdx.graphics.getWidth()/2.0f, Gdx.graphics.getHeight());
-        shape.line(0, Gdx.graphics.getHeight()/2.0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/2.0f);
+        shape.line(Gdx.graphics.getWidth() / 2.0f, 0, Gdx.graphics.getWidth() / 2.0f, Gdx.graphics.getHeight());
+        shape.line(0, Gdx.graphics.getHeight() / 2.0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / 2.0f);
         shape.end();
         batch.begin();
+
         for (ParticleSprite sprite : sprites) {
             sprite.draw(batch);
         }
@@ -132,7 +133,7 @@ public class DisplayScreen extends BaseScreen {
             this.particle = particle;
             this.ratioH = ratioH;
             this.ratioW = ratioW;
-            this.setOrigin(5,5);
+            this.setOrigin(5, 5);
         }
 
         @Override
@@ -140,10 +141,10 @@ public class DisplayScreen extends BaseScreen {
             this.setPosition((float) particle.getPosition().getPosition(0) * ratioW + Gdx.graphics.getWidth() / 2.0f - 5.0f,
                     (float) particle.getPosition().getPosition(1) * ratioW + Gdx.graphics.getHeight() / 2.0f - 5.0f);
 
-            float deltaX = (float)particle.velocity.getVelocity(0),
-                    deltaY = (float)particle.velocity.getVelocity(1);
+            float deltaX = (float) particle.velocity.getVelocity(0),
+                    deltaY = (float) particle.velocity.getVelocity(1);
             float length = MathUtils.clamp((float) Math.sqrt(deltaX * deltaX + deltaY * deltaY) * 0.85f, 0.4f, 12);
-            this.setRotation(MathUtils.atan2(deltaY,deltaX) * MathUtils.radiansToDegrees);
+            this.setRotation(MathUtils.atan2(deltaY, deltaX) * MathUtils.radiansToDegrees);
             this.setScale(length, 0.4f);
 
             super.draw(spriteBatch);    //To change body of overridden methods use File | Settings | File Templates.

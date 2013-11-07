@@ -16,7 +16,7 @@ import pso.Swarm;
 public class SwarmSettings extends BaseScreen {
 
     private final SliderData[] slidersData = new SliderData[]{
-            new SliderData("Particles", 10, 20000, 50, 100),
+            new SliderData("Particles", 50, 20000, 50, 100),
             new SliderData("Region", 100, 20000, 100, 1000),
             new SliderData("Inertia Start", 1, 100, 1, 95, "% of 1"),
             new SliderData("Inertia End", 1, 100, 1, 90,"% of 1"),
@@ -53,7 +53,7 @@ public class SwarmSettings extends BaseScreen {
                         double accept = sliders[i++].getValue() / 100000;
                         int neigh = (int) sliders[i++].getValue();
 
-                        System.out.printf("Swarm inti Particles:%d Region:%f WeightStart:%f  WeightEnd:%f  LocalW:%f GlobalW:%f  Acceptance:%f  Neigh:%d",
+                        System.out.printf("Swarm inti Particles:%d Region:%f WeightStart:%f  WeightEnd:%f  LocalW:%f GlobalW:%f  Acceptance:%f  Neigh:%d \n",
                                 particles, region, ineStart, ineEnd, weight1, weight2, accept, neigh);
                         Swarm swarm = new Swarm(particles, 2, region, ineStart, ineEnd, weight1, weight2, neigh, iterations, accept);
 

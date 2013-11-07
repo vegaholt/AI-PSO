@@ -118,14 +118,18 @@ public class Swarm {
        //Clearer old list, have to clear list so new list gets sorted
         bestNeighbour.clear();
         //Inserts the first particles neighbour list to the list
-        for (int i = 0; i < neighbourCount; i++) {
-            neighbourHolder[i].distance = getDistance(particle, particles.get(i));
-            neighbourHolder[i].index = i;
-            bestNeighbour.add(neighbourHolder[i]);
+        int i = -1, size = 0;
+        while(size < neighbourCount){
+            i++;
+            if(particle.index == i) continue;
+            neighbourHolder[size].distance = getDistance(particle, particles.get(i));
+            neighbourHolder[size].index = i;
+            bestNeighbour.add(neighbourHolder[size]);
+            size++;
         }
         //Search for the closest neighbours
-        for (int i = neighbourCount + 1; i < swarmSize; i++) {
-
+        for (i = neighbourCount + 1; i < swarmSize; i++) {
+            if(particle.index == i) continue;
             double distance = getDistance(particle, particles.get(i));
             //If distance is better then the highest distance neighbour add to the list
             //then update neighbour with new distance and index
