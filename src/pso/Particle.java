@@ -53,6 +53,48 @@ public class Particle<T> {
         }
     }
 
+    /*
+    *     private void updateVelocity() {
+        double r1 = Math.random();
+        double r2 = Math.random();
+
+        double totalVelocity = 0;
+        double maxVelocity = 7;
+        double scale;
+
+        // Calculate Total new velocity
+        for (int i = 0; i < swarm.dimensions; i++) {
+
+            double newVelocity = (velocity.getVelocity(i) * inertiaWeight)
+                    + (swarm.c1 * r1 * (bestPosition.getPosition(i) - position
+                    .getPosition(i)))
+                    + (swarm.c2 * r2 * (swarm.getBestPosition(this)
+                    .getPosition(i) - position.getPosition(i)));
+
+            totalVelocity += Math.pow(newVelocity, 2);
+        }
+        totalVelocity = Math.sqrt(totalVelocity);
+
+        // Calculate scale for new Velocity
+        scale = (totalVelocity > maxVelocity) ? maxVelocity/totalVelocity : 1;
+
+        // Set new Velocity
+        for (int i = 0; i < swarm.dimensions; i++) {
+
+            double newVelocity = (velocity.getVelocity(i) * inertiaWeight)
+                    + (swarm.c1 * r1 * (bestPosition.getPosition(i) - position
+                    .getPosition(i)))
+                    + (swarm.c2 * r2 * (swarm.getBestPosition(this)
+                    .getPosition(i) - position.getPosition(i)));
+
+            newVelocity*=scale;
+
+            velocity.setVelocity(i, newVelocity);
+        }
+
+        inertiaWeight -= coolingRate;
+    }*/
+
     private void updatePosition() {
         for (int i = 0; i < swarm.dimensions; i++) {
             position.setPosition(i,swarm.type.getNewPosition(velocity.getVelocity(i),
