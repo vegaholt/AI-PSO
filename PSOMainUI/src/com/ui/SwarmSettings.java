@@ -18,19 +18,21 @@ public class SwarmSettings extends BaseScreen {
     private final SliderData[] slidersData = new SliderData[]{
             new SliderData("Particles", 10, 20000, 50, 100),
             new SliderData("Region", 100, 20000, 100, 1000),
-            new SliderData("Inertia Start", 1, 100, 1, 95),
-            new SliderData("Inertia End", 1, 100, 1, 90),
-            new SliderData("Local Weight", 0, 100, 1, 1),
-            new SliderData("Global Weight", 0, 100, 1, 4),
+            new SliderData("Inertia Start", 1, 100, 1, 95, "% of 1"),
+            new SliderData("Inertia End", 1, 100, 1, 90,"% of 1"),
+            new SliderData("Local Weight", 0, 100, 1, 1,"% of 2"),
+            new SliderData("Global Weight", 0, 100, 1, 4, "% of 2"),
             new SliderData("Iterations", 0, 100000, 100, 1000),
-            new SliderData("Acceptance", 1, 1000, 10, 10),
+            new SliderData("Acceptance", 1, 1000, 10, 10,"E-5"),
             new SliderData("Neighbours", 0, 100, 1, 3)
     };
 
+    private final Slider[] sliders;
+    private final Label[] labels;
     public SwarmSettings(final UiApp app) {
         super(app);
-        final Slider[] sliders = new Slider[slidersData.length];
-        final Label[] labels = new Label[slidersData.length];
+        sliders = new Slider[slidersData.length];
+        labels = new Label[slidersData.length];
         int slideWidth = 400;
 
 
@@ -66,10 +68,7 @@ public class SwarmSettings extends BaseScreen {
                     public void changed(ChangeEvent event, Actor actor) {
                         String[] s = actor.getName().split("-");
                         int index = Integer.parseInt(s[1]);
-
-                        if ("" + sliders[index].getValue() == labels[index].getText()) return;
-
-                        labels[index].setText("" + sliders[index].getValue());
+                        setSliderLabel(index);
                     }
                 };
 
@@ -97,7 +96,7 @@ public class SwarmSettings extends BaseScreen {
 
             labels[i] = new Label("" + sliders[i].getValue(), app.skin);
             labels[i].setName("text-" + i);
-
+            setSliderLabel(i);
             mainTable.add(Style.label(slidersData[i].label, Color.WHITE, app)).align(Align.right);
             mainTable.add(sliders[i]).width(slideWidth).colspan(3);
             mainTable.add(labels[i]).width(150);
@@ -112,6 +111,10 @@ public class SwarmSettings extends BaseScreen {
 
     }
 
+    private void setSliderLabel(int sliderIndex){
+        labels[sliderIndex].setText(String.format("%.0f%s",sliders[sliderIndex].getValue(), slidersData[sliderIndex].append));
+    }
+
     @Override
     public void onBackPress() {
         //To change body of implemented methods use File | Settings | File Templates.
@@ -124,6 +127,17 @@ public class SwarmSettings extends BaseScreen {
         public float max;
         public float step;
         public float value;
+        public String append = "";
+
+        public SliderData(String label, float min, float max, float step, float value, String append) {
+            super();
+            this.label = label;
+            this.min = min;
+            this.max = max;
+            this.step = step;
+            this.value = value;
+            this.append  = append;
+        }
 
         public SliderData(String label, float min, float max, float step, float value) {
             super();
