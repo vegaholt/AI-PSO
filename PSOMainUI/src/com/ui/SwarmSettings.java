@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.broken_e.ui.BaseScreen;
 import com.broken_e.ui.UiApp;
 import pso.Swarm;
+import pso.SwarmTypes.SimpleSwarm;
 
 public class SwarmSettings extends BaseScreen {
 
@@ -55,8 +56,8 @@ public class SwarmSettings extends BaseScreen {
 
                         System.out.printf("Swarm inti Particles:%d Region:%f WeightStart:%f  WeightEnd:%f  LocalW:%f GlobalW:%f  Acceptance:%f  Neigh:%d \n",
                                 particles, region, ineStart, ineEnd, weight1, weight2, accept, neigh);
-                        Swarm swarm = new Swarm(particles, 2, region, ineStart, ineEnd, weight1, weight2, neigh, iterations, accept);
-
+                        //Swarm<Float> swarm = new Swarm(particles, 2, region, ineStart, ineEnd, weight1, weight2, neigh, iterations, accept);
+                        Swarm<Float> swarm = new Swarm<Float>(new SimpleSwarm(), particles, 2, region, ineStart, ineEnd, weight1, weight2, neigh, iterations, accept);
                         app.switchScreens(new DisplayScreen(app, swarm));
                     }
                 };

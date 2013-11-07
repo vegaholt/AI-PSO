@@ -1,42 +1,29 @@
 package pso;
 
-public class Particle {
-
-    private Swarm swarm;
-    private Position position;
-    private Position bestPosition;
-    private double inertiaWeight;
-    private double coolingRate;
+public class Particle<T> {
+    public int index;
+    private Swarm<T> swarm;
+    private Position<T> position;
+    private Position<T> bestPosition;
+    //private Position<T> bestPosition;
     private Velocity velocity;
-    public final int index;
 
-    public Particle(Swarm swarm, int index) {
+    public Particle(Swarm<T> swarm, int index) {
         // Set swarm
-        this.swarm = swarm;
         this.index = index;
-
-        //Set weight
-        inertiaWeight = swarm.inertiaWeightStart;
-
-
-        // Calculate coolingRate
-        if (swarm.inertiaWeightStart == swarm.inertiaWeightEnd) {
-            coolingRate = 0;
-        } else {
-            coolingRate = (swarm.inertiaWeightStart - swarm.inertiaWeightEnd) / swarm.iterations;
-        }
+        this.swarm = swarm;
 
         // Create random positions
-        double[] positions = new double[swarm.dimensions];
-        for (int i = 0; i < positions.length; i++) {
-            positions[i] = -(swarm.region / 2) + Math.random() * swarm.region;
+        T[] positions = (T[]) new Object[swarm.dimensions];
+        for (int i = 0; i < swarm.dimensions; i++) {
+            positions[i] = swarm.type.getRandomPosition(i);
         }
 
         // Set position
-        position = new Position(positions);
+        position = new Position<T>(positions, swarm.type);
 
         // Set as bestPosition
-        bestPosition = new Position(positions);
+        bestPosition = new Position<T>(positions, swarm.type);
 
         // Create random velocity - Kan settes til c1/c2
         double[] velocities = new double[swarm.dimensions];
@@ -56,28 +43,20 @@ public class Particle {
     }
 
     private void updateVelocity() {
-        double r1 = Math.random();
-        double r2 = Math.random();
-
         // Use global bestPosition if neighbourCount is 0
+        Position<T> globalBest = swarm.getBestPosition(this);
         for (int i = 0; i < swarm.dimensions; i++) {
-
-            double newVelocity = (velocity.getVelocity(i) * inertiaWeight)
-                    + (swarm.c1 * r1 * (bestPosition.getPosition(i) - position
-                    .getPosition(i)))
-                    + (swarm.c2 * r2 * (swarm.getBestPosition(this)
-                    .getPosition(i) - position.getPosition(i)));
-
-            velocity.setVelocity(i, newVelocity);
+            velocity.setVelocity(i,swarm.type.getNewVelocity(globalBest.getPosition(i),
+                    this.bestPosition.getPosition(i),
+                    this.position.getPosition(i),
+                    this.velocity.getVelocity(i)));
         }
-        inertiaWeight -= coolingRate;
     }
 
     private void updatePosition() {
         for (int i = 0; i < swarm.dimensions; i++) {
-            double newPosition = position.getPosition(i)
-                    + velocity.getVelocity(i);
-            position.setPosition(i, newPosition);
+            position.setPosition(i,swarm.type.getNewPosition(velocity.getVelocity(i),
+                    position.getPosition(i)));
         }
     }
 
@@ -92,13 +71,14 @@ public class Particle {
         }
     }
 
-    public Position getPosition() {
+    public Position<T> getPosition() {
         return position;
     }
 
-    public Position getBestPosition(){
+    public Position<T> getBestPosition() {
         return bestPosition;
     }
+
     public Velocity getVelocity() {
         return velocity;
     }

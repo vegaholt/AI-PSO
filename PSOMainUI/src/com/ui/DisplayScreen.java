@@ -18,7 +18,7 @@ import pso.Swarm;
 
 public class DisplayScreen extends BaseScreen {
 
-    public final Swarm theSwarm;
+    public final Swarm<Float> theSwarm;
     final ShapeRenderer shape;
     final TextButton menuBtn, restartBtn;
     TextureRegion dots[] = new TextureRegion[11];
@@ -27,7 +27,7 @@ public class DisplayScreen extends BaseScreen {
     SwarmThread swarmThread;
     ParticleSprite[] sprites;
 
-    public DisplayScreen(final UiApp app, Swarm swarm) {
+    public DisplayScreen(final UiApp app, Swarm<Float> swarm) {
         super(app);
         shape = new ShapeRenderer();
         ClickListener menuBtnListener = new ClickListener() {
@@ -124,7 +124,7 @@ public class DisplayScreen extends BaseScreen {
     }
 
     class ParticleSprite extends Sprite {
-        public Particle particle;
+        public Particle<Float> particle;
         private float ratioW, ratioH;
 
         public ParticleSprite(TextureRegion region, Particle particle, float ratioW, float ratioH) {

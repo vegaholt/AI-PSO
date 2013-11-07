@@ -1,44 +1,48 @@
 package pso;
 
-public class Position {
-
-    private double[] positions;
+public class Position<T>{
+    private T[] positions;
     private double fitness;
-    private boolean fitnessChanged;
+    private boolean fitnessChanged = true;
+    private final SwarmType<T> calculator;
 
-    public Position(double[] positions) {
-        this.positions = new double[positions.length];
+    public Position(T[] positions, SwarmType<T> calculator) {
+        this.positions = (T[]) new Object[positions.length];
+//        this.positions = new Class<T>[positions.length];
+//        Array.newInstance(T,positions.length)
+        this.calculator = calculator;
         System.arraycopy(positions, 0, this.positions, 0, positions.length);
 
         // Calculate fitness
-        calculateFitness();
+        //calculateFitness();
+        getFitness();
         fitnessChanged = false;
 
     }
 
-    public void setPosition(int index, double position) {
+    public void setPosition(int index, T position) {
         positions[index] = position;
         fitnessChanged = true;
     }
 
-    public double getPosition(int index) {
+    public T getPosition(int index) {
         return positions[index];
     }
 
     public double getFitness() {
         if (fitnessChanged) {
-            calculateFitness();
+            fitness = calculator.getFitness(this);
             fitnessChanged = false;
         }
         return fitness;
     }
 
-    private void calculateFitness() {
-        fitness = 0;
-        for (int i = 0; i < positions.length; i++) {
-            fitness += Math.pow(positions[i], 2);
-        }
-    }
+   // private void calculateFitness() {
+   //     fitness = 0;
+   //     for (int i = 0; i < positions.length; i++) {
+   //         fitness += Math.pow(positions[i], 2);
+   //     }
+   // }
 
     public String toString() {
         String string = "[Position ";
