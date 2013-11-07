@@ -3,11 +3,11 @@ package pso;
 public class Particle {
 
     private Swarm swarm;
-    private Velocity velocity;
     private Position position;
     private Position bestPosition;
     private double inertiaWeight;
     private double coolingRate;
+    public Velocity velocity;
     public final int index;
 
     public Particle(Swarm swarm, int index) {

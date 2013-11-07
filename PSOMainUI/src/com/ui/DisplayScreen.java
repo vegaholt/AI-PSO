@@ -2,8 +2,10 @@ package com.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -22,6 +24,7 @@ public class DisplayScreen extends BaseScreen {
     float halfWidth = 800, halfHeight = 450;
     Label globalBest, updatesPrSecond;
     SwarmThread swarmThread;
+    ParticleSprite[] sprites;
 
     public DisplayScreen(final UiApp app, Swarm swarm) {
         super(app);
@@ -40,18 +43,26 @@ public class DisplayScreen extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 theSwarm.initSwarm();
+                for (int i = 0; i < theSwarm.particles.size(); i++) {
+                    sprites[i].particle = theSwarm.particles.get(i);
+                }
                 //swarmThread.startSimulation(1);
                 restartBtn.setChecked(false);
             }
         };
+        ratioH = (float) (1.0f * Gdx.graphics.getHeight() / swarm.region);
+        ratioW = (float) (1.0f * Gdx.graphics.getWidth() / swarm.region);
         this.theSwarm = swarm;
         swarm.initSwarm();
         for (int i = 0; i < dots.length; i++) {
             dots[i] = app.atlas.findRegion("color" + i);
         }
+        sprites = new ParticleSprite[swarm.swarmSize];
+        for (int i = 0; i < sprites.length; i++) {
+            sprites[i] = new ParticleSprite(dots[i % dots.length], swarm.particles.get(i), ratioW, ratioH);
+        }
 
-        ratioH = (float) (1.0f * Gdx.graphics.getHeight() / swarm.region);
-        ratioW = (float) (1.0f * Gdx.graphics.getWidth() / swarm.region);
+
         scale = (float) Math.min(1, Math.max(ratioW, 0.2));
         //swarm.run();
 
@@ -89,24 +100,44 @@ public class DisplayScreen extends BaseScreen {
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);    //To change body of overridden methods use File | Settings | File Templates.oo
-        float y = 0;
-        int i = 0;
         batch.setColor(Color.WHITE);
-        for (int j = 0; j < theSwarm.particles.size(); j++) {
-            Particle p = theSwarm.particles.get(j);
-            if (theSwarm.dimensions > 1) {
-                y = (float) p.getPosition().getPosition(1) * ratioH;
-            }
-            batch.draw(dots[i % dots.length], (float) p.getPosition().getPosition(0) * ratioW + halfWidth, y + halfHeight, 0, 0, 10, 10, scale, scale, 0);
-            i++;
+        for (ParticleSprite sprite : sprites) {
+            sprite.draw(batch);
         }
-
     }
 
     @Override
     public void act(float delta) {
-        super.act(delta);    //To change body of overridden methods use File | Settings | File Templates.
+        super.act(delta);
         theSwarm.updateParticles();
         globalBest.setText(String.format("Global Best:%.6f", theSwarm.bestPosition.getFitness()));
+    }
+
+    class ParticleSprite extends Sprite {
+        public Particle particle;
+        private float ratioW, ratioH;
+
+        public ParticleSprite(TextureRegion region, Particle particle, float ratioW, float ratioH) {
+            super(region);
+            this.particle = particle;
+            this.ratioH = ratioH;
+            this.ratioW = ratioW;
+            this.setOrigin(5,5);
+        }
+
+        @Override
+        public void draw(SpriteBatch spriteBatch) {
+            this.setPosition((float) particle.getPosition().getPosition(0) * ratioW + Gdx.graphics.getWidth() / 2.0f,
+                    (float) particle.getPosition().getPosition(1) * ratioW + Gdx.graphics.getHeight() / 2.0f);
+
+            System.out.println(particle.velocity.getVelocity(0));
+            float deltaX = (float)particle.velocity.getVelocity(0),
+                    deltaY = (float)particle.velocity.getVelocity(1);
+            float length = MathUtils.clamp((float) Math.sqrt( deltaX * deltaX + deltaY * deltaY) * 0.8f, 0.4f, 15);
+            this.setRotation(MathUtils.atan2(deltaY,deltaX) * MathUtils.radiansToDegrees);
+            this.setScale(length, 0.4f);
+
+            super.draw(spriteBatch);    //To change body of overridden methods use File | Settings | File Templates.
+        }
     }
 }

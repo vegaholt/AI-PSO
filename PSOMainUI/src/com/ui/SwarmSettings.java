@@ -17,7 +17,7 @@ public class SwarmSettings extends BaseScreen {
 
     private final SliderData[] slidersData = new SliderData[]{
             new SliderData("Particles", 10, 20000, 50, 100),
-            new SliderData("Region", 100, 100000, 100, 1000),
+            new SliderData("Region", 100, 20000, 100, 1000),
             new SliderData("Inertia Start", 1, 100, 1, 95),
             new SliderData("Inertia End", 1, 100, 1, 90),
             new SliderData("Local Weight", 0, 100, 1, 1),
