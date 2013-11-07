@@ -7,7 +7,7 @@ public class Particle {
     private Position bestPosition;
     private double inertiaWeight;
     private double coolingRate;
-    public Velocity velocity;
+    private Velocity velocity;
     public final int index;
 
     public Particle(Swarm swarm, int index) {
@@ -98,6 +98,9 @@ public class Particle {
 
     public Position getBestPosition(){
         return bestPosition;
+    }
+    public Velocity getVelocity() {
+        return velocity;
     }
 
     public String toString() {
