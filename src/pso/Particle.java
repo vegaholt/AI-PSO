@@ -43,18 +43,9 @@ public class Particle<T> {
     }
 
     private void updateVelocity() {
-        // Use global bestPosition if neighbourCount is 0
-        Position<T> globalBest = swarm.getBestPosition(this);
-        for (int i = 0; i < swarm.dimensions; i++) {
-            velocity.setVelocity(i,swarm.type.getNewVelocity(globalBest.getPosition(i),
-                    this.bestPosition.getPosition(i),
-                    this.position.getPosition(i),
-                    this.velocity.getVelocity(i)));
-        }
-    }
 
-    /*
-    *     private void updateVelocity() {
+        Position<T> globalBest = swarm.getBestPosition(this);
+
         double r1 = Math.random();
         double r2 = Math.random();
 
@@ -65,11 +56,11 @@ public class Particle<T> {
         // Calculate Total new velocity
         for (int i = 0; i < swarm.dimensions; i++) {
 
-            double newVelocity = (velocity.getVelocity(i) * inertiaWeight)
-                    + (swarm.c1 * r1 * (bestPosition.getPosition(i) - position
-                    .getPosition(i)))
-                    + (swarm.c2 * r2 * (swarm.getBestPosition(this)
-                    .getPosition(i) - position.getPosition(i)));
+            double newVelocity = swarm.type.getNewVelocity(
+                    globalBest.getPosition(i),
+                    this.bestPosition.getPosition(i),
+                    this.position.getPosition(i),
+                    this.velocity.getVelocity(i));
 
             totalVelocity += Math.pow(newVelocity, 2);
         }
@@ -81,19 +72,19 @@ public class Particle<T> {
         // Set new Velocity
         for (int i = 0; i < swarm.dimensions; i++) {
 
-            double newVelocity = (velocity.getVelocity(i) * inertiaWeight)
-                    + (swarm.c1 * r1 * (bestPosition.getPosition(i) - position
-                    .getPosition(i)))
-                    + (swarm.c2 * r2 * (swarm.getBestPosition(this)
-                    .getPosition(i) - position.getPosition(i)));
+            double newVelocity = swarm.type.getNewVelocity(
+                    globalBest.getPosition(i),
+                    this.bestPosition.getPosition(i),
+                    this.position.getPosition(i),
+                    this.velocity.getVelocity(i));
 
             newVelocity*=scale;
 
             velocity.setVelocity(i, newVelocity);
         }
 
-        inertiaWeight -= coolingRate;
-    }*/
+        swarm.currentInertia -= swarm.coolingRate;
+    }
 
     private void updatePosition() {
         for (int i = 0; i < swarm.dimensions; i++) {
