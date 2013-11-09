@@ -5,9 +5,10 @@ public class Position<T>{
     private double fitness;
     private boolean fitnessChanged = true;
     private final SwarmType<T> calculator;
-
+    public final int length;
     public Position(T[] positions, SwarmType<T> calculator) {
         this.positions = (T[]) new Object[positions.length];
+        this.length = positions.length;
 //        this.positions = new Class<T>[positions.length];
 //        Array.newInstance(T,positions.length)
         this.calculator = calculator;
@@ -20,12 +21,12 @@ public class Position<T>{
 
     }
 
-    public void setPosition(int index, T position) {
+    public void setAxis(int index, T position) {
         positions[index] = position;
         fitnessChanged = true;
     }
 
-    public T getPosition(int index) {
+    public T getAxis(int index) {
         return positions[index];
     }
 
@@ -36,13 +37,6 @@ public class Position<T>{
         }
         return fitness;
     }
-
-   // private void calculateFitness() {
-   //     fitness = 0;
-   //     for (int i = 0; i < positions.length; i++) {
-   //         fitness += Math.pow(positions[i], 2);
-   //     }
-   // }
 
     public String toString() {
         String string = "[Position ";

@@ -8,11 +8,11 @@ public class Velocity {
 		this.velocities = velocities;
 	}
 
-	public void setVelocity(int index, double velocity) {
+	public void setAxis(int index, double velocity) {
 		velocities[index] = velocity;
 	}
 
-	public double getVelocity(int index) {
+	public double getAxis(int index) {
 		return velocities[index];
 	}
 

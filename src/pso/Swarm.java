@@ -6,26 +6,47 @@ import java.util.TreeSet;
 
 public class Swarm<T> {
 
-    public final int swarmSize;
-    public final int dimensions;
-    public final double region;
-    public final double inertiaWeightStart;
-    public final double inertiaWeightEnd;
-    public double currentInertia;
-    public double coolingRate;
-    public final double c1, c2;
-    public final int neighbourCount;
-    public final int iterations;
-    public final double acceptanceValue;
     public final SwarmType<T> type;
+    /**
+     * SWARM SETTINGS VARIABLES
+     */
+    public double acceptanceValue;
+    public int swarmSize;
+    public int dimensions;
+    public double region;
+    public double inertiaWeightStart;
+    public double inertiaWeightEnd;
+    public double c1, c2;
+    public int neighbourCount;
+    public int iterations;
+    public int maxVelocity;
+    /**
+     * SWARM SIMULATION VARIABLES
+     */
     public ArrayList<Particle<T>> particles;
     public Position<T> bestPosition;
+    public double currentInertia;
+    public double coolingRate;
     private ParticleNeighbour[] neighbourHolder;
     private TreeSet<ParticleNeighbour> bestNeighbour;
 
     public Swarm(SwarmType<T> swarmType, int swarmSize, int dimensions, double region,
                  double inertiaWeightStart, double inertiaWeightEnd,
                  double c1, double c2, int neighbourCount, int iterations, double acceptanceValue) {
+        this(swarmType);
+        this.set(swarmSize, dimensions, region, inertiaWeightStart, inertiaWeightEnd, c1, c2, neighbourCount, iterations, acceptanceValue, 7);
+    }
+
+    public Swarm(SwarmType<T> swarmType) {
+        this.type = swarmType;
+        this.bestNeighbour = new TreeSet<ParticleNeighbour>();
+        this.particles = new ArrayList<Particle<T>>();
+    }
+
+    public void set(int swarmSize, int dimensions, double region,
+                    double inertiaWeightStart, double inertiaWeightEnd,
+                    double c1, double c2, int neighbourCount, int iterations, double acceptanceValue, int maxVelocity){
+
         this.swarmSize = swarmSize;
         this.dimensions = dimensions;
         this.region = region;
@@ -36,16 +57,13 @@ public class Swarm<T> {
         this.neighbourCount = neighbourCount;
         this.iterations = iterations;
         this.acceptanceValue = acceptanceValue;
-        this.type = swarmType;
-        this.bestNeighbour = new TreeSet<ParticleNeighbour>();
+        this.maxVelocity = maxVelocity;
         this.neighbourHolder = new ParticleNeighbour[neighbourCount];
-        this.particles = new ArrayList<Particle<T>>();
         for (int i = 0; i < neighbourCount; i++) {
             this.neighbourHolder[i] = new ParticleNeighbour(i, i);
         }
 
-        coolingRate = (inertiaWeightStart - inertiaWeightEnd) /iterations;
-        swarmType.setSwarm(this);
+        this.coolingRate = (inertiaWeightStart - inertiaWeightEnd) / iterations;
     }
 
     public void initSwarm() {
@@ -69,10 +87,10 @@ public class Swarm<T> {
         }
 
         //Set best position
-        T[] positions = (T[])new Object[dimensions];
+        T[] positions = (T[]) new Object[dimensions];
 
         for (int i = 0; i < dimensions; i++) {
-            positions[i] = particles.get(bestIndex).getPosition().getPosition(i);
+            positions[i] = particles.get(bestIndex).getPosition().getAxis(i);
         }
         bestPosition = new Position<T>(positions, type);
 
@@ -96,17 +114,17 @@ public class Swarm<T> {
     }
 
     public void updateParticles() {
-        for (int i = 0; i < particles.size(); i++) {
-            particles.get(i).updateParticle();
+        for (Particle<T> particle : particles) {
+            particle.updateParticle();
         }
-
-        currentInertia -= coolingRate;
+        if (currentInertia > inertiaWeightEnd)
+            currentInertia -= coolingRate;
     }
 
     public void updateBestPosition(Position<T> position) {
         if (position.getFitness() < bestPosition.getFitness()) {
             for (int i = 0; i < dimensions; i++) {
-                bestPosition.setPosition(i, position.getPosition(i));
+                bestPosition.setAxis(i, position.getAxis(i));
             }
         }
     }
@@ -125,8 +143,7 @@ public class Swarm<T> {
         while (size < neighbourCount) {
             i++;
             if (particle.index == i) continue;
-            neighbourHolder[size].distance = type.getDistance(particle, particles.get(i));
-            neighbourHolder[size].index = i;
+            neighbourHolder[size].set(i, type.getDistance(particle, particles.get(i)));
             bestNeighbour.add(neighbourHolder[size]);
             size++;
         }
@@ -139,8 +156,7 @@ public class Swarm<T> {
             if (distance < bestNeighbour.last().distance) {
                 //Must poll worst element and add to make the list sort the item
                 ParticleNeighbour n = bestNeighbour.pollLast();
-                n.distance = distance;
-                n.index = i;
+                n.set(i, distance);
                 bestNeighbour.add(n);
             }
         }

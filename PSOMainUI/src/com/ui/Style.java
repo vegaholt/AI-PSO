@@ -73,10 +73,10 @@ public class Style {
         skin.add("default", tbs);
 
         TextButtonStyle tbs2 = new TextButtonStyle(btn1up, btn1down, btn1down, smallFont);
-        tbs.fontColor = skin.getColor("white");
-        tbs.pressedOffsetX = Math.round(1f * Gdx.graphics.getDensity());
-        tbs.pressedOffsetY = tbs.pressedOffsetX * -1f;
-        skin.add("small", tbs);
+        tbs2.fontColor = skin.getColor("white");
+        tbs2.pressedOffsetX = Math.round(1f * Gdx.graphics.getDensity());
+        tbs2.pressedOffsetY = tbs.pressedOffsetX * -1f;
+        skin.add("small", tbs2);
 
         NinePatchDrawable sliderBg = new NinePatchDrawable(atlas.createPatch("slide-bg"));
         NinePatchDrawable knob = new NinePatchDrawable(atlas.createPatch("knob"));

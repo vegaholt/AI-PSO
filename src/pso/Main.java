@@ -1,7 +1,8 @@
 package pso;
 
-import pso.SwarmTypes.KnapSackSwam;
-import pso.SwarmTypes.SimpleSwarm;
+import pso.SwarmTypes.KnapSackSwarm;
+
+import java.io.FileNotFoundException;
 
 public class Main<T> {
     T[] test;
@@ -22,8 +23,13 @@ public class Main<T> {
       //  SimpleSwarm s = new SimpleSwarm();
       //  s.swarm.initSwarm();
       //  s.swarm.run();
-        KnapSackSwam knapSackSwam = new KnapSackSwam(1000,0);
-        Swarm<Boolean> swarm = new Swarm<Boolean>(knapSackSwam, 2000, 2000, 1000, 1, 0.4, 0.01, 0.01, 0, 1000, 0.001);
+        KnapSackSwarm knapSackSwam = null;
+        try {
+            knapSackSwam = new KnapSackSwarm(1000,0);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Swarm<Boolean> swarm = new Swarm<Boolean>(knapSackSwam, 100, 2000, 1, 0.9, 0.4, 0.1, 0.1, 0, 1000, 0.001);
         swarm.initSwarm();
         swarm.run();
         knapSackSwam.printStats();

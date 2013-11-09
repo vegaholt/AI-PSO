@@ -11,30 +11,29 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.broken_e.ui.BaseScreen;
 import com.broken_e.ui.UiApp;
-import pso.Swarm;
-import pso.SwarmTypes.SimpleSwarm;
+import com.sun.org.apache.bcel.internal.generic.ALOAD;
 
 public class SwarmSettings extends BaseScreen {
 
-    private final SliderData[] slidersData = new SliderData[]{
-            new SliderData("Particles", 50, 20000, 50, 100),
-            new SliderData("Region", 100, 20000, 100, 1000),
-            new SliderData("Inertia Start", 1, 100, 1, 95, "% of 1"),
-            new SliderData("Inertia End", 1, 100, 1, 90,"% of 1"),
-            new SliderData("Local Weight", 0, 100, 1, 1,"% of 2"),
-            new SliderData("Global Weight", 0, 100, 1, 4, "% of 2"),
-            new SliderData("Iterations", 0, 100000, 100, 1000),
-            new SliderData("Acceptance", 1, 1000, 10, 10,"E-5"),
-            new SliderData("Neighbours", 0, 100, 1, 3)
-    };
-
     private final Slider[] sliders;
     private final Label[] labels;
-    public SwarmSettings(final UiApp app) {
+    private final SliderData[] slidersData;
+    public SwarmSettings(final UiApp app, final pso.SwarmSettings presets) {
         super(app);
+        slidersData = new SliderData[]{
+                new SliderData("Particles", 50, 15000, 50, presets.swarmSize),
+                new SliderData("Region", 1, 5000, 1, (int)presets.region),
+                new SliderData("Inertia Start", 1, 100, 1, (int)(presets.inertiaWeightStart * 100), "% of 1"),
+                new SliderData("Inertia End", 1, 100, 1, (int)(presets.inertiaWeightEnd * 100), "% of 1"),
+                new SliderData("Local Weight", 0, 100, 1, (int)(presets.c1 * 50), "% of 2"),
+                new SliderData("Global Weight", 0, 100, 1, (int)(presets.c2 * 50), "% of 2"),
+                new SliderData("Iterations", 0, 10000, 200,presets.iterations),
+                new SliderData("Acceptance", 1, 1000, 10, (int)(presets.acceptanceValue* 100000), "E-5"),
+                new SliderData("Neighbours", 0, 100, 1, presets.neighbourCount)
+        };
         sliders = new Slider[slidersData.length];
         labels = new Label[slidersData.length];
-        int slideWidth = 400;
+        int slideWidth = 900;
 
 
         ClickListener startBtnListener = new
@@ -44,21 +43,17 @@ public class SwarmSettings extends BaseScreen {
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
                         int i = 0;
-                        int particles = (int) sliders[i++].getValue();
-                        double region = (double) sliders[i++].getValue();
-                        double ineStart = (double) sliders[i++].getValue() / 100.0;
-                        double ineEnd = (double) sliders[i++].getValue() / 100.0;
-                        double weight1 = (sliders[i++].getValue() / 100.0) * 2;
-                        double weight2 = (sliders[i++].getValue() / 100.0) * 2;
-                        int iterations = (int) sliders[i++].getValue();
-                        double accept = sliders[i++].getValue() / 100000;
-                        int neigh = (int) sliders[i++].getValue();
+                        presets.swarmSize = (int) sliders[i++].getValue();
+                        presets.region = (double) sliders[i++].getValue();
+                        presets.inertiaWeightStart = (double) sliders[i++].getValue() / 100.0;
+                        presets.inertiaWeightEnd = (double) sliders[i++].getValue() / 100.0;
+                        presets.c1 = (sliders[i++].getValue() / 100.0) * 2;
+                        presets.c2 = (sliders[i++].getValue() / 100.0) * 2;
+                        presets.iterations = (int) sliders[i++].getValue();
+                        presets.acceptanceValue = sliders[i++].getValue() / 100000;
+                        presets.neighbourCount = (int) sliders[i++].getValue();
 
-                        System.out.printf("Swarm inti Particles:%d Region:%f WeightStart:%f  WeightEnd:%f  LocalW:%f GlobalW:%f  Acceptance:%f  Neigh:%d \n",
-                                particles, region, ineStart, ineEnd, weight1, weight2, accept, neigh);
-                        //Swarm<Float> swarm = new Swarm(particles, 2, region, ineStart, ineEnd, weight1, weight2, neigh, iterations, accept);
-                        Swarm<Float> swarm = new Swarm<Float>(new SimpleSwarm(), particles, 2, region, ineStart, ineEnd, weight1, weight2, neigh, iterations, accept);
-                        app.switchScreens(new DisplayScreen(app, swarm));
+                        app.switchScreens(new DisplayScreen(app, presets));
                     }
                 };
         ChangeListener changeListener = new
@@ -77,6 +72,15 @@ public class SwarmSettings extends BaseScreen {
         startBtn.addListener(startBtnListener);
         startBtn.setColor(app.skin.getColor("green"));
 
+        TextButton backBtn = new TextButton("Back", app.skin);
+        backBtn.setColor(app.skin.getColor("green"));
+        backBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                app.switchScreens(new MainScreen(app));
+            }
+        });
         TextButton fastMode = new TextButton("Fast Mode", app.skin);
         fastMode.setColor(app.skin.getColor("blue"));
 
@@ -99,21 +103,25 @@ public class SwarmSettings extends BaseScreen {
             labels[i].setName("text-" + i);
             setSliderLabel(i);
             mainTable.add(Style.label(slidersData[i].label, Color.WHITE, app)).align(Align.right);
-            mainTable.add(sliders[i]).width(slideWidth).colspan(3);
+            mainTable.add(sliders[i]).width(slideWidth).colspan(6);
             mainTable.add(labels[i]).width(150);
             mainTable.row();
         }
-        mainTable.add(Style.label("Simulation settings", Color.WHITE, app)).colspan(6);
-        mainTable.row();
-        mainTable.add(fastMode).width(300).height(60).colspan(3);
-        mainTable.add(runSimulations).width(300).height(60).colspan(3);
-        mainTable.row();
-        mainTable.add(startBtn).width(400).height(80).colspan(6);
 
+
+        mainTable.add(Style.label("Simulation settings", Color.WHITE, app)).colspan(8).align(Align.center);
+        mainTable.row();
+
+        mainTable.add(fastMode).width(300).height(60).colspan(4).align(Align.right);
+        mainTable.add(runSimulations).width(300).height(60).colspan(4).align(Align.left);
+
+        mainTable.row();
+        mainTable.add(backBtn).width(300).height(80).colspan(4).align(Align.right);
+        mainTable.add(startBtn).width(300).height(80).colspan(4).align(Align.left);
     }
 
-    private void setSliderLabel(int sliderIndex){
-        labels[sliderIndex].setText(String.format("%.0f%s",sliders[sliderIndex].getValue(), slidersData[sliderIndex].append));
+    private void setSliderLabel(int sliderIndex) {
+        labels[sliderIndex].setText(String.format("%.0f%s", sliders[sliderIndex].getValue(), slidersData[sliderIndex].append));
     }
 
     @Override
@@ -137,7 +145,7 @@ public class SwarmSettings extends BaseScreen {
             this.max = max;
             this.step = step;
             this.value = value;
-            this.append  = append;
+            this.append = append;
         }
 
         public SliderData(String label, float min, float max, float step, float value) {

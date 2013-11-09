@@ -141,6 +141,13 @@ text-field
   orig: 36, 36
   offset: 0, 0
   index: -1
+whitedot
+  rotate: false
+  xy: 369, 116
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
 window
   rotate: false
   xy: 104, 26

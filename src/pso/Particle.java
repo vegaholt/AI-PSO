@@ -28,7 +28,7 @@ public class Particle<T> {
         // Create random velocity - Kan settes til c1/c2
         double[] velocities = new double[swarm.dimensions];
         for (int i = 0; i < velocities.length; i++) {
-            velocities[i] = -(swarm.region / 2000) + Math.random() * swarm.region / 1000;
+            velocities[i] = -(swarm.region / 200) + Math.random() * swarm.region / 100;
         }
 
         // Set velocity
@@ -46,50 +46,38 @@ public class Particle<T> {
 
         Position<T> globalBest = swarm.getBestPosition(this);
 
-        double r1 = Math.random();
-        double r2 = Math.random();
+        double randomC1 = Math.random()*swarm.c1;
+        double randomC2 = Math.random() * swarm.c2;
 
         double totalVelocity = 0;
-        double maxVelocity = 7;
-        double scale;
-
         // Calculate Total new velocity
         for (int i = 0; i < swarm.dimensions; i++) {
 
             double newVelocity = swarm.type.getNewVelocity(
-                    globalBest.getPosition(i),
-                    this.bestPosition.getPosition(i),
-                    this.position.getPosition(i),
-                    this.velocity.getVelocity(i));
+                    globalBest.getAxis(i),
+                    this.bestPosition.getAxis(i),
+                    this.position.getAxis(i),
+                    this.velocity.getAxis(i),randomC1,randomC2);
 
-            totalVelocity += Math.pow(newVelocity, 2);
+            totalVelocity += newVelocity * newVelocity;
+            velocity.setAxis(i, newVelocity);
         }
         totalVelocity = Math.sqrt(totalVelocity);
-
+        //If toatl velocity is less than max allowed no point in continue
+        if(totalVelocity < swarm.maxVelocity) return;
         // Calculate scale for new Velocity
-        scale = (totalVelocity > maxVelocity) ? maxVelocity/totalVelocity : 1;
+        double scale = swarm.maxVelocity/totalVelocity;
 
-        // Set new Velocity
+        // Scale the Velocity down
         for (int i = 0; i < swarm.dimensions; i++) {
-
-            double newVelocity = swarm.type.getNewVelocity(
-                    globalBest.getPosition(i),
-                    this.bestPosition.getPosition(i),
-                    this.position.getPosition(i),
-                    this.velocity.getVelocity(i));
-
-            newVelocity*=scale;
-
-            velocity.setVelocity(i, newVelocity);
+            velocity.setAxis(i, velocity.getAxis(i) * scale);
         }
-
-        swarm.currentInertia -= swarm.coolingRate;
     }
 
     private void updatePosition() {
         for (int i = 0; i < swarm.dimensions; i++) {
-            position.setPosition(i,swarm.type.getNewPosition(velocity.getVelocity(i),
-                    position.getPosition(i)));
+            position.setAxis(i, swarm.type.getNewPosition(velocity.getAxis(i),
+                    position.getAxis(i)));
         }
     }
 
@@ -97,7 +85,7 @@ public class Particle<T> {
         if (position.getFitness() < bestPosition.getFitness()) {
 
             for (int i = 0; i < swarm.dimensions; i++) {
-                bestPosition.setPosition(i, position.getPosition(i));
+                bestPosition.setAxis(i, position.getAxis(i));
             }
 
             swarm.updateBestPosition(bestPosition);
