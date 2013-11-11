@@ -100,27 +100,27 @@ public class KnapSackSwarm extends SwarmType<Boolean> {
     @Override
     public double getNewVelocity(Boolean globalBest, Boolean localBest, Boolean currentPos, double currentVelocity, double randomC1, double randomC2, int axisIndex) {
        // System.out.println( Math.abs(currentVelocity) * swarm.currentInertia + randomC1 * convertType(localBest)*10 + randomC2 *convertType(globalBest)*10);
-        return Math.abs(currentVelocity) * swarm.currentInertia + randomC1 * convertType(localBest != currentPos) + randomC2 *convertType(globalBest != currentPos);
-//        double localD0, localD1, globalD0, globalD1;
-//        if (localBest) {
-//            localD1 = randomC1;
-//            localD0 = -randomC1;
-//        } else {
-//            localD1 = -randomC1;
-//            localD0 = randomC1;
-//        }
-//
-//        if (globalBest) {
-//            globalD1 = randomC2;
-//            globalD0 = -randomC2;
-//        } else {
-//            globalD1 = -randomC2;
-//            globalD0 = randomC2;
-//        }
-//
-//        v0[axisIndex] = v0[axisIndex] + localD0 + globalD0;
-//        v1[axisIndex] = v1[axisIndex] + localD1 + globalD1;
-//        return currentPos ? v0[axisIndex] : v1[axisIndex];
+        //return Math.abs(currentVelocity) * swarm.currentInertia + randomC1 * convertType(localBest != currentPos) + randomC2 *convertType(globalBest != currentPos);
+        double localD0, localD1, globalD0, globalD1;
+        if (localBest) {
+            localD1 = randomC1;
+            localD0 = -randomC1;
+        } else {
+            localD1 = -randomC1;
+            localD0 = randomC1;
+        }
+
+        if (globalBest) {
+            globalD1 = randomC2;
+            globalD0 = -randomC2;
+        } else {
+            globalD1 = -randomC2;
+            globalD0 = randomC2;
+        }
+
+        v0[axisIndex] = v0[axisIndex] + localD0 + globalD0;
+        v1[axisIndex] = v1[axisIndex] + localD1 + globalD1;
+        return currentPos ? v0[axisIndex] : v1[axisIndex];
         // v0[axisIndex] = currentVelocity*swarm.currentInertia + localD0 + localD1;
 
         //   return super.getNewVelocity(globalBest, localBest, currentPos, currentVelocity, randomC1, randomC2);    //To change body of overridden methods use File | Settings | File Templates.

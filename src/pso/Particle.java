@@ -59,7 +59,7 @@ public class Particle<T> {
                     this.velocity.getAxis(i),randomC1,randomC2,i);
 
             //totalVelocity += newVelocity * newVelocity;
-            velocity.setAxis(i,Math.min(swarm.maxVelocity, Math.max(-swarm.maxVelocity, Math.abs(newVelocity))));
+            velocity.setAxis(i,Math.min(swarm.maxVelocity, Math.max(-swarm.maxVelocity, newVelocity)));
         }
         //totalVelocity = Math.sqrt(totalVelocity);
         //If toatl velocity is less than max allowed no point in continue
