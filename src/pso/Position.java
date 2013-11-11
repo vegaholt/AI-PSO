@@ -6,6 +6,7 @@ public class Position<T>{
     private boolean fitnessChanged = true;
     private final SwarmType<T> calculator;
     public final int length;
+
     public Position(T[] positions, SwarmType<T> calculator) {
         this.positions = (T[]) new Object[positions.length];
         this.length = positions.length;

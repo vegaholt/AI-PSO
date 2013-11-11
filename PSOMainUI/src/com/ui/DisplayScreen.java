@@ -59,7 +59,7 @@ public class DisplayScreen extends BaseScreen {
                 presets.region, presets.inertiaWeightStart,
                 presets.inertiaWeightEnd, presets.c1,
                 presets.c2, presets.neighbourCount,
-                presets.iterations, presets.acceptanceValue, 20);
+                presets.iterations, presets.acceptanceValue, 10);
 
         theSwarm = swarmType.getSwarm();
         this.addActor(swarmActor);

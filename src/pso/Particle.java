@@ -57,7 +57,7 @@ public class Particle<T> {
                     globalBest.getAxis(i),
                     this.bestPosition.getAxis(i),
                     this.position.getAxis(i),
-                    this.velocity.getAxis(i),randomC1,randomC2);
+                    this.velocity.getAxis(i),randomC1,randomC2,i);
 
             totalVelocity += newVelocity * newVelocity;
             velocity.setAxis(i, newVelocity);
