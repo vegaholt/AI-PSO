@@ -41,7 +41,7 @@ public class SimpleSwarm extends SwarmType<Float> {
     }
 
     @Override
-    public Float getNewPosition(double currentVelocity, Float currentPos) {
+    public Float getNewPosition(double currentVelocity, Float currentPos, int axisIndex) {
         return (float)(currentPos + currentVelocity);
     }
 }

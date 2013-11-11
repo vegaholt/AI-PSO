@@ -28,7 +28,7 @@ public class Particle<T> {
         // Create random velocity - Kan settes til c1/c2
         double[] velocities = new double[swarm.dimensions];
         for (int i = 0; i < velocities.length; i++) {
-            velocities[i] = -(swarm.region / 200) + Math.random() * swarm.region / 100;
+            velocities[i] = -(swarm.region / 2000) + Math.random() * swarm.region / 1000;
         }
 
         // Set velocity
@@ -77,7 +77,7 @@ public class Particle<T> {
     private void updatePosition() {
         for (int i = 0; i < swarm.dimensions; i++) {
             position.setAxis(i, swarm.type.getNewPosition(velocity.getAxis(i),
-                    position.getAxis(i)));
+                    position.getAxis(i),i));
         }
     }
 

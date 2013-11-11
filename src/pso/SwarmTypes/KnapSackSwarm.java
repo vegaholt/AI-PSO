@@ -11,6 +11,7 @@ public class KnapSackSwarm extends SwarmType<Boolean> {
     public final double weightLimit;
     public final double volumeLimit;
     public ArrayList<Package> packages = new ArrayList<Package>();
+    public double averageRatio;
 
     public KnapSackSwarm(double weightLimit, double volumeLimit) throws FileNotFoundException {
         this(new FileInputStream("packages.txt"), weightLimit, volumeLimit);
@@ -51,16 +52,19 @@ public class KnapSackSwarm extends SwarmType<Boolean> {
     public double getFitness(Position<Boolean> position) {
         double totWeight = 0;
         double totValue = 0;
+        double sumRatio = 0;
         for (int i = 0; i < swarm.dimensions; i++) {
             if (position.getAxis(i)) {
                 Package p = packages.get(i);
-                totValue += p.getValue();
-                totWeight += p.getWeight();
+                totValue += p.value;
+                totWeight += p.weight;
+                sumRatio += p.weight / p.value;
             }
         }
-        double value = 1/totValue+ (totWeight > weightLimit ? Math.abs(totWeight - weightLimit) + 1 : 1);
+//        double value = 1/(totValue)+ (totWeight > weightLimit ? Math.abs(totWeight - weightLimit)*10 + 1  : 1);
         //System.out.printf("Totweight:%.2f, weightLimit:%.2f fitness:%.6f\n", totWeight, weightLimit, value);
-        return value;
+        //System.out.println( 10000 - totValue + (totWeight > weightLimit ? (totWeight - weightLimit)*10 : 0));
+        return 100000 - totValue + (totWeight > weightLimit ? (totWeight - weightLimit)*1000 : 0);
     }
 
     @Override
@@ -79,22 +83,44 @@ public class KnapSackSwarm extends SwarmType<Boolean> {
     }
 
     @Override
-    public Boolean getNewPosition(double currentVelocity, Boolean currentPos) {
-        //return Math.random() >= 1/(1+currentVelocity);
-        return Math.random() >= Math.exp(-1.0 * currentVelocity);
+    public Boolean getNewPosition(double currentVelocity, Boolean currentPos, int axisIndex) {
+        currentVelocity = Math.min(1, Math.abs(currentVelocity));
+        double sig = 1.0 / (1.0 + Math.exp(-1.0 * currentVelocity));
 
-       // return (0.5 + 0.5 * Math.random()) <= (1 / (1 + Math.exp(-currentVelocity)));
+        //return Math.random() > 1 / (1+ Math.abs(currentVelocity)*100000) ? !currentPos : currentPos;
+        //  return Math.abs(currentVelocity) > Math.random()*0.1 ? !currentPos : currentPos;
+        //Sigmond function
+        return Math.random() >= sig;
+        // System.out.printf("Vel:%f  sig:%f\n",currentVelocity, sig);
+         //   return packages.get(axisIndex).ratio > averageRatio * (Math.random()*0.99 + 0.01);
+       //  if (Math.random()<= sig) {
+       //    // return true;
+        //}
+
+       // System.out.println(sig);
+       // return true;
+
+        //return Math.random() <= sig ? packages.get(axisIndex).value / packages.get(axisIndex).weight > averageRatio : false;
+
+        //System.out.println(currentVelocity);
+        //return Ma;
+        // return Math.random() < Math.exp(-Math.abs(currentVelocity));
+        // return (0.5 + 0.5 * Math.random()) <= (1 / (1 + Math.exp(-currentVelocity)));
     }
 
     public void buildPackages(InputStream fis) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(fis));
         String line;
-
+        averageRatio = 0;
         while ((line = br.readLine()) != null) {
             String[] param = line.split(",");
-            packages.add(new Package(Double.parseDouble(param[0]), Double
-                    .parseDouble(param[1]), false));
+            double value = Double.parseDouble(param[0]);
+            double weight = Double.parseDouble(param[1]);
+            packages.add(new Package(value, weight, false));
+            averageRatio += value / weight;
         }
+        averageRatio = averageRatio / packages.size();
+        System.out.println(averageRatio);
 
         br.close();
     }
@@ -118,10 +144,12 @@ public class KnapSackSwarm extends SwarmType<Boolean> {
         private final double value;
         private final double weight;
         private final double volume;
+        public final double ratio;
 
         public Package(double value, double weight, boolean volume) {
             this.value = value;
             this.weight = weight;
+            this.ratio = value / weight;
             this.volume = (volume) ? 1 + Math.random() * 4 : 0;
         }
 
