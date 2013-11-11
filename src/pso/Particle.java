@@ -48,7 +48,6 @@ public class Particle<T> {
 
         double randomC1 = Math.random()*swarm.c1;
         double randomC2 = Math.random() * swarm.c2;
-
         double totalVelocity = 0;
         // Calculate Total new velocity
         for (int i = 0; i < swarm.dimensions; i++) {
@@ -60,7 +59,7 @@ public class Particle<T> {
                     this.velocity.getAxis(i),randomC1,randomC2,i);
 
             //totalVelocity += newVelocity * newVelocity;
-            velocity.setAxis(i, Math.signum(newVelocity)*Math.min(swarm.maxVelocity, Math.abs(newVelocity)));
+            velocity.setAxis(i,Math.min(swarm.maxVelocity, Math.max(-swarm.maxVelocity, Math.abs(newVelocity))));
         }
         //totalVelocity = Math.sqrt(totalVelocity);
         //If toatl velocity is less than max allowed no point in continue

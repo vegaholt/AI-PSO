@@ -37,6 +37,7 @@ public class Swarm<T> {
         this.set(swarmSize, dimensions, region, inertiaWeightStart, inertiaWeightEnd, c1, c2, neighbourCount, iterations, acceptanceValue, 7);
     }
 
+
     public Swarm(SwarmType<T> swarmType) {
         this.type = swarmType;
         this.bestNeighbour = new TreeSet<ParticleNeighbour>();

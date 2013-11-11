@@ -30,7 +30,7 @@ public class SwarmSettings extends BaseScreen {
                 new SliderData("Iterations", 0, 10000, 200,presets.iterations),
                 new SliderData("Acceptance", 1, 1000, 10, (int)(presets.acceptanceValue* 100000), "E-5"),
                 new SliderData("Neighbours", 0, 100, 1, presets.neighbourCount),
-                new SliderData("Max Velocity",1,100,1, (int)(presets.maxVelocity/10), "% of 10")
+                new SliderData("Max Velocity",1,100,1, (int)(presets.maxVelocity*10), "% of 10")
         };
         sliders = new Slider[slidersData.length];
         labels = new Label[slidersData.length];
