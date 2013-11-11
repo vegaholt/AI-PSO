@@ -19,7 +19,7 @@ public class Swarm<T> {
     public double c1, c2;
     public int neighbourCount;
     public int iterations;
-    public int maxVelocity;
+    public double maxVelocity;
     /**
      * SWARM SIMULATION VARIABLES
      */
@@ -45,7 +45,7 @@ public class Swarm<T> {
 
     public void set(int swarmSize, int dimensions, double region,
                     double inertiaWeightStart, double inertiaWeightEnd,
-                    double c1, double c2, int neighbourCount, int iterations, double acceptanceValue, int maxVelocity){
+                    double c1, double c2, int neighbourCount, int iterations, double acceptanceValue, double maxVelocity){
 
         this.swarmSize = swarmSize;
         this.dimensions = dimensions;

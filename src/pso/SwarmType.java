@@ -2,8 +2,16 @@ package pso;
 
 public abstract class SwarmType<T> {
     protected final Swarm<T> swarm;
-    public SwarmType(){
+    public SwarmType(SwarmSettings settings){
         this.swarm = new Swarm<T>(this);
+        this.swarm.set(settings.swarmSize, settings.dimensions,
+                settings.region, settings.inertiaWeightStart,
+                settings.inertiaWeightEnd,
+                settings.c1,settings.c2,
+                settings.neighbourCount,
+                settings.iterations,
+                settings.acceptanceValue,
+                settings.maxVelocity);
     }
 
     public Swarm<T> getSwarm(){

@@ -49,17 +49,12 @@ public class DisplayScreen extends BaseScreen {
         mainTable.setBackground(app.skin.getDrawable("window1"));
 
         if (presets.type == pso.SwarmSettings.TypeOfSwarm.KNAPSACK) {
-            swarmType = new KnapSackSwarm(Gdx.files.internal("packages.txt").read(), 1000, 0);
+            swarmType = new KnapSackSwarm(presets,Gdx.files.internal("packages.txt").read());
             swarmActor = new KnappSackActor(app.atlas, (KnapSackSwarm) swarmType);
         } else {
-            swarmType = new SimpleSwarm();
+            swarmType = new SimpleSwarm(presets);
             swarmActor = new SimpleSwarmActor(app.atlas, (SimpleSwarm) swarmType);
         }
-        swarmType.getSwarm().set(presets.swarmSize, presets.dimensions,
-                presets.region, presets.inertiaWeightStart,
-                presets.inertiaWeightEnd, presets.c1,
-                presets.c2, presets.neighbourCount,
-                presets.iterations, presets.acceptanceValue, 10);
 
         theSwarm = swarmType.getSwarm();
         this.addActor(swarmActor);

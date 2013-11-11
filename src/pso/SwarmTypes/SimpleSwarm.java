@@ -2,10 +2,15 @@ package pso.SwarmTypes;
 
 import pso.Particle;
 import pso.Position;
+import pso.SwarmSettings;
 import pso.SwarmType;
 
 public class SimpleSwarm extends SwarmType<Float> {
 
+
+   public SimpleSwarm(SwarmSettings settings){
+      super(settings);
+   }
     @Override
     public double getFitness(Position<Float> position) {
         double fitness = 0;

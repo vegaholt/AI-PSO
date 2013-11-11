@@ -15,9 +15,11 @@ public class KnappSackActor extends Group {
     private final KnapSackSwarm type;
     private final Swarm<Boolean> swarm;
     private final Sprite dot;
+    private final Sprite ring;
 
     public KnappSackActor(TextureAtlas atlas, KnapSackSwarm swarmType) {
         dot = new Sprite(atlas.findRegion("whitedot"));
+        ring = new Sprite(atlas.findRegion("whitering"));
         type = swarmType;
         swarm = swarmType.getSwarm();
     }
@@ -36,28 +38,32 @@ public class KnappSackActor extends Group {
         float stepWidth = (Gdx.graphics.getWidth()) / steps;
         float stepHeight = (Gdx.graphics.getHeight()-40) / steps;
         int index = 0;
-        double weight = 0, value = 0;
-
+        float xPos,yPos;
         outer:
         for (int y = 0; y < steps; y++) {
+            xPos = 0;
+            yPos = y * stepHeight +20;
             for (int x = 0; x < steps; x++) {
-                if (swarm.bestPosition.getAxis(index)) {
-                    weight += type.packages.get(index).getWeight();
-                    value += type.packages.get(index).getValue();
-                }
 
-                dot.setPosition(x * stepWidth+20, y * stepHeight+20);
+               xPos += stepWidth;
+                dot.setPosition(xPos+3,yPos+3);
+                ring.setPosition(xPos,yPos);
                 float color = 0;
                 for (Particle<Boolean> particle : swarm.particles) {
                     if (particle.getPosition().getAxis(index)) color++;
                 }
-                dot.setColor(new Color(1.0f - color / swarm.particles.size(), color / swarm.particles.size(), 0.0f, 1.0f));
+                color = color / swarm.particles.size();
+                ring.setColor(new Color(1-color, color, 0.0f, 1.0f));
+                ring.draw(batch);
+                dot.setScale(0.8f, 0.8f);
+                dot.setColor(swarm.bestPosition.getAxis(index) ? new Color(0, 1, 0, 1) : new Color(1, 0, 0, 1));
                 dot.draw(batch);
                 index++;
                 if (index == swarm.dimensions) {
                     break outer;
                 }
             }
+
         }
     }
 }

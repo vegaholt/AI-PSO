@@ -23,77 +23,77 @@ buttonDown
   index: -1
 color0
   rotate: false
-  xy: 2, 14
+  xy: 254, 78
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 color1
   rotate: false
-  xy: 2, 2
+  xy: 252, 66
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 color10
   rotate: false
-  xy: 254, 78
+  xy: 357, 116
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 color2
   rotate: false
-  xy: 252, 66
+  xy: 20, 14
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 color3
   rotate: false
-  xy: 357, 116
+  xy: 20, 2
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 color4
   rotate: false
-  xy: 14, 14
+  xy: 266, 78
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 color5
   rotate: false
-  xy: 14, 2
+  xy: 252, 54
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 color6
   rotate: false
-  xy: 266, 78
+  xy: 264, 66
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 color7
   rotate: false
-  xy: 252, 54
+  xy: 357, 104
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 color8
   rotate: false
-  xy: 264, 66
+  xy: 369, 116
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 color9
   rotate: false
-  xy: 357, 104
+  xy: 32, 14
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -143,9 +143,16 @@ text-field
   index: -1
 whitedot
   rotate: false
-  xy: 369, 116
+  xy: 32, 2
   size: 10, 10
   orig: 10, 10
+  offset: 0, 0
+  index: -1
+whitering
+  rotate: false
+  xy: 2, 8
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: -1
 window

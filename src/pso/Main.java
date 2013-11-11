@@ -25,7 +25,7 @@ public class Main<T> {
       //  s.swarm.run();
         KnapSackSwarm knapSackSwam = null;
         try {
-            knapSackSwam = new KnapSackSwarm(1000,0);
+            knapSackSwam = new KnapSackSwarm(SwarmSettings.tasks[7]);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

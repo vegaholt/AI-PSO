@@ -59,19 +59,19 @@ public class Particle<T> {
                     this.position.getAxis(i),
                     this.velocity.getAxis(i),randomC1,randomC2,i);
 
-            totalVelocity += newVelocity * newVelocity;
-            velocity.setAxis(i, newVelocity);
+            //totalVelocity += newVelocity * newVelocity;
+            velocity.setAxis(i, Math.signum(newVelocity)*Math.min(swarm.maxVelocity, Math.abs(newVelocity)));
         }
-        totalVelocity = Math.sqrt(totalVelocity);
+        //totalVelocity = Math.sqrt(totalVelocity);
         //If toatl velocity is less than max allowed no point in continue
-        if(totalVelocity < swarm.maxVelocity) return;
+        //if(totalVelocity < swarm.maxVelocity) return;
         // Calculate scale for new Velocity
-        double scale = swarm.maxVelocity/totalVelocity;
+        //double scale = swarm.maxVelocity/totalVelocity;
 
         // Scale the Velocity down
-        for (int i = 0; i < swarm.dimensions; i++) {
-            velocity.setAxis(i, velocity.getAxis(i) * scale);
-        }
+        //for (int i = 0; i < swarm.dimensions; i++) {
+          //  velocity.setAxis(i, velocity.getAxis(i) * scale);
+        //}
     }
 
     private void updatePosition() {
