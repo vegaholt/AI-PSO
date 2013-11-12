@@ -13,7 +13,6 @@ public class SwarmSettings {
             new SwarmSettings("3a. Knapsack", 0.001, 100, 2001, 1, 0.9, 0.9, 0.1, 0.1, 0, 1000, 1, TypeOfSwarm.KNAPSACK),
             new SwarmSettings("3b. Weighted Knapsack", 0.001, 100, 2001, 1000, 0.9, 0.9, 0.2, 1.8, 0, 1000, 1, TypeOfSwarm.KNAPSACK),
             new SwarmSettings("3c. Inertia change and Weighted Knapsack", 0.001, 100, 2001, 1000, 0.9, 0.4, 0.2, 1.8, 0, 1000, 1, TypeOfSwarm.KNAPSACK),
-            new SwarmSettings("4a. Knapsack with volume", 0.001, 100, 2001, 1000, 0.9, 0.9, 0.2, 1.0, 0, 1000, 1, TypeOfSwarm.KNAPSACK),
     };
     public String name;
     public double acceptanceValue;

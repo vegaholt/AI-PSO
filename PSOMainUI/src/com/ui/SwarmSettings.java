@@ -28,7 +28,7 @@ public class SwarmSettings extends BaseScreen {
                 new SliderData("Inertia End", 1, 100, 1, (int) (presets.inertiaWeightEnd * 100), "% of 1"),
                 new SliderData("Local Weight", 0, 100, 1, (int) (presets.c1 * 50), "% of 2"),
                 new SliderData("Global Weight", 0, 100, 1, (int) (presets.c2 * 50), "% of 2"),
-                new SliderData("Iterations", 0, 10000, 200, presets.iterations),
+                new SliderData("Iterations", 0, 5000, 100, presets.iterations),
                 new SliderData("Acceptance", 1, 1000, 10, (int) (presets.acceptanceValue * 100000), "E-5"),
                 new SliderData("Neighbours", 0, 100, 1, presets.neighbourCount),
                 new SliderData("Max Velocity", 1, 100, 1, (int) (presets.maxVelocity * 10), "% of 10")
@@ -56,7 +56,7 @@ public class SwarmSettings extends BaseScreen {
                         presets.neighbourCount = (int) sliders[i++].getValue();
                         presets.maxVelocity = sliders[i++].getValue() / 10;
                         presets.useNovelMode = novelBtn.isChecked();
-                        presets.useVolume = novelBtn.isChecked();
+                        presets.useVolume = volumeBtn.isChecked();
                         app.switchScreens(new DisplayScreen(app, presets));
                     }
                 };

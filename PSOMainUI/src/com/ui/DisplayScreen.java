@@ -96,7 +96,7 @@ public class DisplayScreen extends BaseScreen {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (theSwarm.bestPosition.getFitness() <= theSwarm.acceptanceValue) {
+        if (theSwarm.bestPosition.getFitness() <= theSwarm.acceptanceValue || theSwarm.iterations == iterationCount) {
             swarmStats.setText(swarmType.getCurrentStats());
         } else {
             theSwarm.updateParticles();

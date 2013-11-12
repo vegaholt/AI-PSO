@@ -48,8 +48,8 @@ public class KnapSackSwarm extends SwarmType<Boolean> {
                 count++;
             }
         }
-        return String.format("Sum Value:%.3f  Selected pacakges:%d  Sum Weight:%.3f/%.0f Sum Volume:%.3f/%.0f", totalValue, count, totalWeight, weightLimit,
-                totalVolum, volumeLimit);
+        return String.format("Sum Value:%.3f  Selected pacakges:%d  Sum Weight:%.3f/%.0f Sum Volume:%.3f/%.0f Fitness:%.5f", totalValue, count, totalWeight, weightLimit,
+                totalVolum, volumeLimit, swarm.bestPosition.getFitness());
     }
 
     @Override
@@ -79,7 +79,7 @@ public class KnapSackSwarm extends SwarmType<Boolean> {
                 i--;
             }
         }
-        return (1 / totValue) * 1000;
+        return (1 / totValue) * 100;
     }
 
     @Override
