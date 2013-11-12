@@ -30,14 +30,16 @@ public class SimpleSwarm extends SwarmType<Float> {
     }
 
     @Override
-    public Float getRandomPosition(int axisIndex) {
-          //To change body of implemented methods use File | Settings | File Templates.
-        return  (float)(-(swarm.region / 2) + Math.random() * swarm.region);
+    public double getNewVelocity(Float globalBest, Float localBest, Float currentPos, double currentVelocity, double randomC1, double randomC2, int axisIndex) {
+        return (currentVelocity * swarm.currentInertia)
+                + (randomC1 * (localBest - currentPos))
+                + (randomC2 * (globalBest - currentPos));
     }
 
     @Override
-    public double convertType(Float value) {
-        return (double)value;
+    public Float getRandomPosition(int axisIndex) {
+          //To change body of implemented methods use File | Settings | File Templates.
+        return  (float)(-(swarm.region / 2) + Math.random() * swarm.region);
     }
 
     @Override

@@ -11,26 +11,27 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.broken_e.ui.BaseScreen;
 import com.broken_e.ui.UiApp;
-import com.sun.org.apache.bcel.internal.generic.ALOAD;
 
 public class SwarmSettings extends BaseScreen {
 
     private final Slider[] sliders;
     private final Label[] labels;
     private final SliderData[] slidersData;
+    private final TextButton volumeBtn, novelBtn;
+
     public SwarmSettings(final UiApp app, final pso.SwarmSettings presets) {
         super(app);
         slidersData = new SliderData[]{
                 new SliderData("Particles", 50, 15000, 50, presets.swarmSize),
-                new SliderData("Region", 1, 5000, 1, (int)presets.region),
-                new SliderData("Inertia Start", 1, 100, 1, (int)(presets.inertiaWeightStart * 100), "% of 1"),
-                new SliderData("Inertia End", 1, 100, 1, (int)(presets.inertiaWeightEnd * 100), "% of 1"),
-                new SliderData("Local Weight", 0, 100, 1, (int)(presets.c1 * 50), "% of 2"),
-                new SliderData("Global Weight", 0, 100, 1, (int)(presets.c2 * 50), "% of 2"),
-                new SliderData("Iterations", 0, 10000, 200,presets.iterations),
-                new SliderData("Acceptance", 1, 1000, 10, (int)(presets.acceptanceValue* 100000), "E-5"),
+                new SliderData("Region", 1, 5000, 1, (int) presets.region),
+                new SliderData("Inertia Start", 1, 100, 1, (int) (presets.inertiaWeightStart * 100), "% of 1"),
+                new SliderData("Inertia End", 1, 100, 1, (int) (presets.inertiaWeightEnd * 100), "% of 1"),
+                new SliderData("Local Weight", 0, 100, 1, (int) (presets.c1 * 50), "% of 2"),
+                new SliderData("Global Weight", 0, 100, 1, (int) (presets.c2 * 50), "% of 2"),
+                new SliderData("Iterations", 0, 10000, 200, presets.iterations),
+                new SliderData("Acceptance", 1, 1000, 10, (int) (presets.acceptanceValue * 100000), "E-5"),
                 new SliderData("Neighbours", 0, 100, 1, presets.neighbourCount),
-                new SliderData("Max Velocity",1,100,1, (int)(presets.maxVelocity*10), "% of 10")
+                new SliderData("Max Velocity", 1, 100, 1, (int) (presets.maxVelocity * 10), "% of 10")
         };
         sliders = new Slider[slidersData.length];
         labels = new Label[slidersData.length];
@@ -53,8 +54,9 @@ public class SwarmSettings extends BaseScreen {
                         presets.iterations = (int) sliders[i++].getValue();
                         presets.acceptanceValue = sliders[i++].getValue() / 100000;
                         presets.neighbourCount = (int) sliders[i++].getValue();
-                        presets.maxVelocity = sliders[i++].getValue()/10;
-
+                        presets.maxVelocity = sliders[i++].getValue() / 10;
+                        presets.useNovelMode = novelBtn.isChecked();
+                        presets.useVolume = novelBtn.isChecked();
                         app.switchScreens(new DisplayScreen(app, presets));
                     }
                 };
@@ -83,11 +85,11 @@ public class SwarmSettings extends BaseScreen {
                 app.switchScreens(new MainScreen(app));
             }
         });
-        TextButton fastMode = new TextButton("Fast Mode", app.skin);
-        fastMode.setColor(app.skin.getColor("blue"));
+        volumeBtn = new TextButton("Use Volume", app.skin);
+        volumeBtn.setColor(app.skin.getColor("blue"));
 
-        TextButton runSimulations = new TextButton("20 simulations", app.skin);
-        runSimulations.setColor(app.skin.getColor("blue"));
+        novelBtn = new TextButton("Use Novel Alg", app.skin);
+        novelBtn.setColor(app.skin.getColor("blue"));
 
 
         mainTable.defaults().pad(6f);
@@ -114,8 +116,10 @@ public class SwarmSettings extends BaseScreen {
         mainTable.add(Style.label("Simulation settings", Color.WHITE, app)).colspan(8).align(Align.center);
         mainTable.row();
 
-        mainTable.add(fastMode).width(300).height(60).colspan(4).align(Align.right);
-        mainTable.add(runSimulations).width(300).height(60).colspan(4).align(Align.left);
+        if (presets.type == pso.SwarmSettings.TypeOfSwarm.KNAPSACK) {
+            mainTable.add(volumeBtn).width(300).height(60).colspan(4).align(Align.right);
+            mainTable.add(novelBtn).width(300).height(60).colspan(4).align(Align.left);
+        }
 
         mainTable.row();
         mainTable.add(backBtn).width(300).height(80).colspan(4).align(Align.right);
